@@ -1,0 +1,14 @@
+﻿Secuencia de llamadas de MVVC
+
+1) El instance locator llama a mainviewmodel 
+
+2)
+Constructor de mainviewmodel 
+Rates = new ObservableCollection<Rate>();
+            IsEnabled = false;
+            GetRates();
+            Message = "Select the values";
+
+3) app.xaml (que solamente abre el mainpage)
+
+4) abre MainPage

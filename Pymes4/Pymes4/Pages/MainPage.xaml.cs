@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+using System.Windows.Input;
 
-namespace Pymes4
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace Pymes4.Pages
 {
     public partial class MainPage : ContentPage
     {

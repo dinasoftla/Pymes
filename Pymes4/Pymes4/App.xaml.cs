@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pymes4.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,9 @@ namespace Pymes4
         public App()
         {
             InitializeComponent();
+            MainPage = new NavigationPage(new MainPage());
 
-            MainPage = new Pymes4.MainPage();
+            //MainPage = new Pymes4.MainPage();
         }
 
         protected override void OnStart()
