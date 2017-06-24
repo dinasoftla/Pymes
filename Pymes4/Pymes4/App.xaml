@@ -8,6 +8,5 @@
         <!-- Locator -->
         <infra:InstanceLocator x:Key="Locator"></infra:InstanceLocator>
 
-
     </Application.Resources>
 </Application>

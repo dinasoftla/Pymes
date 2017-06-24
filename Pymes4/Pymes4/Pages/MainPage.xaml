@@ -1,17 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:control="clr-namespace:Pymes4.Controls"
              x:Class="Pymes4.Pages.MainPage"
-             Title="MainPage">
-    <Label Text="Main Page" VerticalOptions="Center" HorizontalOptions="Center" />
-  <ScrollView>
-      <StackLayout Padding="10">
-      <Label Text="ContentPage" FontSize="40"/>
-      <Label Text="ContentPage is the simplest type of page."/>
-      <Label Text="The content of the ContentPage is generally a layout of some sort that can be a parent to multiple children."/>
-      <Label Text="This content page contains a StackLayout, which in turn contains a few Label views (including the large one on the top and an example of handling click commands and data binding to a Label below)."/>
-      <Button Text="Click Me" Command="{Binding IncreaseCountCommand}"/>
-      <Label Text="{Binding CountDisplay}"/>
+             Title="Foreign Exchange"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <StackLayout
+    Padding="8">
+        <Label
+      Text="Amount:">
+        </Label>
+        <Entry
+      Keyboard="Numeric"
+      Text="{Binding Amount}">
+        </Entry>
+        <Label
+      Text="Source currency:">
+        </Label>
+        <control:BindablePicker
+      Title="Select source currency..."
+      DisplayMemberPath="Code"
+      SelectedValuePath="TaxRate"
+      ItemsSource="{Binding Rates}"
+      SelectedValue ="{Binding Path=SourceRate, Mode=TwoWay}"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="Center">
+        </control:BindablePicker>
+        <Label
+      Text="Target currency:">
+        </Label>
+        <control:BindablePicker
+      Title="Select target currency..."
+      DisplayMemberPath="Code"
+      SelectedValuePath="TaxRate"
+      ItemsSource="{Binding Rates}"
+      SelectedValue ="{Binding Path=TargetRate, Mode=TwoWay}"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="Center">
+        </control:BindablePicker>
+        <Button
+      Command="{Binding ConvertCommand}"
+      IsEnabled="{Binding IsEnabled}"
+      Text="Convert"
+      BackgroundColor="Navy"
+      TextColor="White"
+      HeightRequest="40"
+      BorderRadius="20">
+        </Button>
+        <ActivityIndicator
+      IsRunning="{Binding IsRunning}">
+        </ActivityIndicator>
+        <Label
+      Text="{Binding Message}"
+      BackgroundColor="Silver"
+      TextColor="Purple"
+      FontAttributes="Bold"
+      HorizontalTextAlignment="Center"
+      VerticalTextAlignment="Center"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="FillAndExpand">
+        </Label>
     </StackLayout>
-  </ScrollView>
 </ContentPage>

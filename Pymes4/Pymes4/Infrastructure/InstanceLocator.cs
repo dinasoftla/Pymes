@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DivisasMVVM.Infrastructure
+namespace Pymes4.Infrastructure
 {
     public class InstanceLocator //Clase Creada a pie para relacionar el mainviewmodel
     {
