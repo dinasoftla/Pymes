@@ -5,7 +5,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
-using System.Reflection;
 using System.Windows.Input;
 using Pymes4.Helpers;
 
@@ -141,10 +140,11 @@ namespace Pymes4.ViewModels
 
         public MainViewModel()
         {
+           
             Rates = new ObservableCollection<Rate>();
             IsEnabled = false;
             //GetRates();
-            LoadApiResult("71382211");
+            LoadApiResult(Settings.Phone);
             Message = "Select the values";
 
         }
@@ -192,7 +192,7 @@ namespace Pymes4.ViewModels
                 {
                     IsRunning = true;
                     HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri("http://192.168.0.14");
+                    client.BaseAddress = new Uri("http://192.168.0.10");
                     string url = string.Format("/apirest/index.php/consultacliente/{0}", phone);
                     var response = await client.GetAsync(url);
 
@@ -214,7 +214,7 @@ namespace Pymes4.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                    await App.Current.MainPage.DisplayAlert("Error De Conexión", ex.Message, "Aceptar");
                     IsRunning = false;
                     IsEnabled = false;
                     return;
@@ -225,8 +225,6 @@ namespace Pymes4.ViewModels
                 IsRunning = false;
                 IsEnabled = true;
             //}
-
-
 
         }
 
@@ -241,13 +239,13 @@ namespace Pymes4.ViewModels
             {
                 App.Current.MainPage = new Pages.InactiveUsr();
             }
-            //Settings.Name = usuarios.Usuarios[0].nombre;
-            //Settings.Phone = usuarios.Usuarios[0].telefono;
-            //Settings.Email = usuarios.Usuarios[0].email;
-            //Settings.ActiveUser = usuarios.Usuarios[0].usuarioactivo;
-            //Settings.Appointment = usuarios.Usuarios[0].cita;
-            //Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
-            //Settings.Offert = usuarios.Usuarios[0].oferta;
+            Settings.Name = usuarios.Usuarios[0].nombre;
+            Settings.Phone = usuarios.Usuarios[0].telefono;
+            Settings.Email = usuarios.Usuarios[0].email;
+            Settings.ActiveUser = usuarios.Usuarios[0].usuarioactivo;
+            Settings.Appointment = usuarios.Usuarios[0].cita;
+            Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
+            Settings.Offert = usuarios.Usuarios[0].oferta;
 
         }
 

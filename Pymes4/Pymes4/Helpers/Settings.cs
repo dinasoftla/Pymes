@@ -5,10 +5,9 @@ using Plugin.Settings.Abstractions;
 namespace Pymes4.Helpers
 {
     /// <summary>
-    /// This is the Settings static class that can be used in your Core solution or in any
-    /// of your client applications. All settings are laid out the same exact way with getters
-    /// and setters. 
+    /// Agregar nudged en todos los proyectos, importante: limpiar y compilar todo
     /// NOTA: >>>> SETTINGS USADOS EN LA APLICACION (SE GUARDAN LOCALMENTE)
+    /// 
     /// </summary>
     public static class Settings
     {
