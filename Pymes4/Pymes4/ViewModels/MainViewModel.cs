@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows.Input;
+using Pymes4.Helpers;
 
 namespace Pymes4.ViewModels
 {
@@ -14,7 +15,7 @@ namespace Pymes4.ViewModels
     {
         #region Attributes
 
-        private ExchangeRates exchangeRates;
+        private RootObjectUsuario usuarios;
 
         private decimal amount;
 
@@ -142,11 +143,11 @@ namespace Pymes4.ViewModels
         {
             Rates = new ObservableCollection<Rate>();
             IsEnabled = false;
-            GetRates();
+            //GetRates();
+            LoadApiResult("71382211");
             Message = "Select the values";
 
         }
-
         #endregion
 
         #region Commands
@@ -183,57 +184,73 @@ namespace Pymes4.ViewModels
 
         #endregion
         #region Methods
-
-        private void LoadRates()
+        public async void LoadApiResult(string phone)
         {
-            Rates.Clear();
-            var type = typeof(Rates);
-            var properties = type.GetRuntimeFields();
-
-            foreach (var property in properties)
-            {
-                var code = property.Name.Substring(1, 3);
-                Rates.Add(new Rate
+            //if (!String.IsNullOrEmpty(Settings.Phone))
+            //{
+                try
                 {
-                    Code = code,
-                    TaxRate = (double)property.GetValue(exchangeRates.Rates),
-                });
-            }
-        }
+                    IsRunning = true;
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri("http://192.168.0.14");
+                    string url = string.Format("/apirest/index.php/consultacliente/{0}", phone);
+                    var response = await client.GetAsync(url);
 
-        private async void GetRates()
-        {
-            try
-            {
-                IsRunning = true;
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("https://openexchangerates.org");
-                var url = "/api/latest.json?app_id=e511adb5bb0b4d2d9dd6d2a3b8fc21a1";
-                var response = await client.GetAsync(url);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        await App.Current.MainPage.DisplayAlert("Error", response.StatusCode.ToString(), "Aceptar");
+                        IsRunning = false;
+                        IsEnabled = false;
+                        return;
+                    }
+                    else
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+                        //Crear clase interface para notificaciones:
+                        usuarios = JsonConvert.DeserializeObject<RootObjectUsuario>(result);
 
-                if (!response.IsSuccessStatusCode)
+                    }
+
+                }
+                catch (Exception ex)
                 {
-                    await App.Current.MainPage.DisplayAlert("Error", response.StatusCode.ToString(), "Aceptar");
+                    await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
                     IsRunning = false;
                     IsEnabled = false;
                     return;
                 }
+            //
 
-                var result = await response.Content.ReadAsStringAsync();
-                exchangeRates = JsonConvert.DeserializeObject<ExchangeRates>(result);
-            }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                Successful();
                 IsRunning = false;
-                IsEnabled = false;
-                return;
-            }
+                IsEnabled = true;
+            //}
 
-            LoadRates();
-            IsRunning = false;
-            IsEnabled = true;
+
+
         }
+
+
+        private void Successful()
+        {
+            if (usuarios.Usuarios[0].usuarioactivo == "1")
+            {
+                App.Current.MainPage = new Pages.MenuPage();
+            }
+            else if (usuarios.Usuarios[0].usuarioactivo == "0")
+            {
+                App.Current.MainPage = new Pages.InactiveUsr();
+            }
+            //Settings.Name = usuarios.Usuarios[0].nombre;
+            //Settings.Phone = usuarios.Usuarios[0].telefono;
+            //Settings.Email = usuarios.Usuarios[0].email;
+            //Settings.ActiveUser = usuarios.Usuarios[0].usuarioactivo;
+            //Settings.Appointment = usuarios.Usuarios[0].cita;
+            //Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
+            //Settings.Offert = usuarios.Usuarios[0].oferta;
+
+        }
+
 
         #endregion
     }
