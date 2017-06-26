@@ -20,7 +20,7 @@ namespace Pymes4.Classes
         public string oferta { get; set; }
     }
 
-    public class RootObjectUsuario
+    public class RootObjectUsuarios
     {
         [JsonProperty(PropertyName = "usuarios")]
         public List<Usuario> Usuarios { get; set; }

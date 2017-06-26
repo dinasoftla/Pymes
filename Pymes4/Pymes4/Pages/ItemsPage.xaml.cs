@@ -13,29 +13,36 @@ using Xamarin.Forms.Xaml;
 namespace Pymes4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MenuPage : ContentPage
+    public partial class ItemsPage : ContentPage
     {
-        public MenuPage()
+        public ItemsPage()
         {
             InitializeComponent();
-            BindingContext = new MenuPageViewModel();
+            BindingContext = new ItemsPageViewModel();
         }
     }
 
-    class MenuPageViewModel : INotifyPropertyChanged
+    class ItemsPageViewModel : INotifyPropertyChanged
     {
 
-        public MenuPageViewModel()
+        public ItemsPageViewModel()
         {
-            IOpenPageCommand = new Command(OpenPage);
+            IncreaseCountCommand = new Command(IncreaseCount);
         }
 
-        public ICommand IOpenPageCommand { get; }
+        int count;
 
-        private void OpenPage()
+        string countDisplay = "You clicked 0 times.";
+        public string CountDisplay
         {
-            App.Current.MainPage = new Pages.ItemsPage();
+            get { return countDisplay; }
+            set { countDisplay = value; OnPropertyChanged(); }
         }
+
+        public ICommand IncreaseCountCommand { get; }
+
+        void IncreaseCount() =>
+            CountDisplay = $"You clicked {++count} times";
 
 
         public event PropertyChangedEventHandler PropertyChanged;

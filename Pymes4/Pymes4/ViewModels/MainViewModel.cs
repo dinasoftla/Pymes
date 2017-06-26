@@ -14,13 +14,7 @@ namespace Pymes4.ViewModels
     {
         #region Attributes
 
-        private RootObjectUsuario usuarios;
-
-        private decimal amount;
-
-        private double sourceRate;
-
-        private double targetRate;
+        private RootObjectUsuarios usuarios;
 
         private bool isRunning;
 
@@ -37,56 +31,6 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
-
-        public ObservableCollection<Rate> Rates { get; set; }
-
-        public decimal Amount
-        {
-            set
-            {
-                if (amount != value)
-                {
-                    amount = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Amount"));
-                }
-            }
-            get
-            {
-                return amount;
-            }
-        }
-
-        public double SourceRate
-        {
-            set
-            {
-                if (sourceRate != value)
-                {
-                    sourceRate = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SourceRate"));
-                }
-            }
-            get
-            {
-                return sourceRate;
-            }
-        }
-
-        public double TargetRate
-        {
-            set
-            {
-                if (targetRate != value)
-                {
-                    targetRate = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TargetRate"));
-                }
-            }
-            get
-            {
-                return targetRate;
-            }
-        }
 
         public bool IsRunning
         {
@@ -140,8 +84,6 @@ namespace Pymes4.ViewModels
 
         public MainViewModel()
         {
-           
-            Rates = new ObservableCollection<Rate>();
             IsEnabled = false;
             //GetRates();
             LoadApiResult(Settings.Phone);
@@ -151,38 +93,8 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Commands
-
-        public ICommand ConvertCommand { get { return new RelayCommand(ConvertMoney); } }
-
-        private async void  ConvertMoney()
-        {
-            if (Amount <= 0)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter an amount", "Acept");
-                return;
-            }
-
-            if (SourceRate == 0)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must select a source rate", "Acept");
-                return;
-            }
-
-            if (TargetRate == -1)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must select a target rate", "Acept");
-                return;
-            }
-
-            decimal amountConverted = amount / (decimal)sourceRate * (decimal)targetRate;
-
-            Message = string.Format("{0:N2} = {1:N2}", amount, amountConverted);
-
-        }
-
-
-
         #endregion
+
         #region Methods
         public async void LoadApiResult(string phone)
         {
@@ -207,7 +119,7 @@ namespace Pymes4.ViewModels
                     {
                         var result = await response.Content.ReadAsStringAsync();
                         //Crear clase interface para notificaciones:
-                        usuarios = JsonConvert.DeserializeObject<RootObjectUsuario>(result);
+                        usuarios = JsonConvert.DeserializeObject<RootObjectUsuarios>(result);
 
                     }
 
@@ -246,7 +158,6 @@ namespace Pymes4.ViewModels
             Settings.Appointment = usuarios.Usuarios[0].cita;
             Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
             Settings.Offert = usuarios.Usuarios[0].oferta;
-
         }
 
 
