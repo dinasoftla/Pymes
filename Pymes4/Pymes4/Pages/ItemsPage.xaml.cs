@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pymes4.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,36 +19,21 @@ namespace Pymes4.Pages
         public ItemsPage()
         {
             InitializeComponent();
-            BindingContext = new ItemsPageViewModel();
-        }
-    }
-
-    class ItemsPageViewModel : INotifyPropertyChanged
-    {
-
-        public ItemsPageViewModel()
-        {
-            IncreaseCountCommand = new Command(IncreaseCount);
+            
         }
 
-        int count;
+        #region Poner en el view model (OJO ESTO ES TEMPORAL)
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+            => ((ListView)sender).SelectedItem = null;
 
-        string countDisplay = "You clicked 0 times.";
-        public string CountDisplay
-        {
-            get { return countDisplay; }
-            set { countDisplay = value; OnPropertyChanged(); }
-        }
-
-        public ICommand IncreaseCountCommand { get; }
-
-        void IncreaseCount() =>
-            CountDisplay = $"You clicked {++count} times";
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+            {
+                var item = ((ListView)sender).SelectedItem as Item;
+                if (item == null)
+                    return;
+            }
+        #endregion
 
     }
+    
 }

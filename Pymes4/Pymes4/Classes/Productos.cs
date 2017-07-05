@@ -22,6 +22,6 @@ namespace Pymes4.Classes
     public class RootObjectProductos
     {
         [JsonProperty(PropertyName = "productos")]
-        public List<Producto> productos { get; set; }
+        public List<Producto> Productos { get; set; }
     }
 }

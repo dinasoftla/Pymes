@@ -32,6 +32,8 @@ namespace Pymes4.ViewModels
 
         #region Properties
 
+        public ItemsPageViewModel ItemsPage { get; set; }
+
         public bool IsRunning
         {
             set
@@ -88,11 +90,13 @@ namespace Pymes4.ViewModels
             //GetRates();
             LoadApiResult(Settings.Phone);
             Message = "Select the values";
+            ItemsPage = new ItemsPageViewModel(); //nueva instancia de itempage
 
         }
         #endregion
 
         #region Commands
+       
         #endregion
 
         #region Methods
@@ -104,7 +108,7 @@ namespace Pymes4.ViewModels
                 {
                     IsRunning = true;
                     HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri("http://192.168.0.10");
+                    client.BaseAddress = new Uri("http://192.168.0.12");
                     string url = string.Format("/apirest/index.php/consultacliente/{0}", phone);
                     var response = await client.GetAsync(url);
 

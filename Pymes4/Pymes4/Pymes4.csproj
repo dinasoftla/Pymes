@@ -38,10 +38,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\ExchangeRates.cs" />
+    <Compile Include="Classes\Item.cs" />
     <Compile Include="Classes\Productos.cs" />
     <Compile Include="Classes\Usuarios.cs" />
     <Compile Include="Controls\BindablePicker.cs" />
+    <Compile Include="Helpers\Grouping.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
     <Compile Include="Pages\InactiveUsr.xaml.cs">

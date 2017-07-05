@@ -7,14 +7,23 @@ using System.ComponentModel;
 using System.Net.Http;
 using System.Windows.Input;
 using Pymes4.Helpers;
+using Xamarin.Forms;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Pymes4.ViewModels
 {
-    class ItemsPageViewModel : INotifyPropertyChanged
+    public class ItemsPageViewModel : INotifyPropertyChanged
     {
         #region Attributes
 
-        private RootObjectUsuarios usuarios;
+        public ObservableCollection<Item> Items { get; set; }
+
+        public ObservableCollection<Grouping<string, Item>> ItemsGrouped { get; set; }
+
+        public int ItemCount => Items.Count;
+
+        private RootObjectProductos productos;
 
         private bool isRunning;
 
@@ -22,11 +31,22 @@ namespace Pymes4.ViewModels
 
         private string message;
 
+
         #endregion
 
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+            => ((ListView)sender).SelectedItem = null;
+
+        void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView)sender).SelectedItem as Item;
+            if (item == null)
+                return;
+        }
 
         #endregion
 
@@ -84,19 +104,34 @@ namespace Pymes4.ViewModels
 
         public ItemsPageViewModel()
         {
-            IsEnabled = false;
-            //GetRates();
-            LoadApiResult(Settings.Phone);
-            Message = "Select the values";
+            //IsEnabled = false;
+            ////GetRates();
+            //LoadApiResult(Settings.Phone);
+            //Message = "Select the values";
+
+            LoadApiResult("71382211", "1");
+
 
         }
         #endregion
 
         #region Commands
+
+        public ICommand RetriveProductsCommand { get { return new RelayCommand(LoadProducts); } }
+
+        private async void LoadProducts()
+        {
+            LoadApiResult("71382211", "1");
+
+
+
+        }
+
         #endregion
 
+
         #region Methods
-        public async void LoadApiResult(string phone)
+        public async void LoadApiResult(string phone, string pageapp)
         {
             //if (!String.IsNullOrEmpty(Settings.Phone))
             //{
@@ -104,8 +139,8 @@ namespace Pymes4.ViewModels
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.10");
-                string url = string.Format("/apirest/index.php/consultacliente/{0}", phone);
+                client.BaseAddress = new Uri("http://192.168.0.12");
+                string url = string.Format("/apirest/index.php/consultaproductos/{0}/{1}", phone, pageapp);
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
@@ -119,8 +154,7 @@ namespace Pymes4.ViewModels
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     //Crear clase interface para notificaciones:
-                    usuarios = JsonConvert.DeserializeObject<RootObjectUsuarios>(result);
-
+                    productos = JsonConvert.DeserializeObject<RootObjectProductos>(result);
                 }
 
             }
@@ -140,27 +174,34 @@ namespace Pymes4.ViewModels
 
         }
 
-
         private void Successful()
         {
-            if (usuarios.Usuarios[0].usuarioactivo == "1")
+            Items = new ObservableCollection<Item>();
+
+            for (int i = 0; i < productos.Productos.Count; i++)
             {
-                App.Current.MainPage = new Pages.MenuPage();
+                Items.Add(new Item
+                {
+                    Code = productos.Productos[i].codarticulo,
+                    Name = productos.Productos[i].descripcion,
+                    Image = productos.Productos[i].foto,
+                    Description = productos.Productos[i].caracteristicas,
+                    Price = productos.Productos[i].precio
+                });
             }
-            else if (usuarios.Usuarios[0].usuarioactivo == "0")
-            {
-                App.Current.MainPage = new Pages.InactiveUsr();
-            }
-            Settings.Name = usuarios.Usuarios[0].nombre;
-            Settings.Phone = usuarios.Usuarios[0].telefono;
-            Settings.Email = usuarios.Usuarios[0].email;
-            Settings.ActiveUser = usuarios.Usuarios[0].usuarioactivo;
-            Settings.Appointment = usuarios.Usuarios[0].cita;
-            Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
-            Settings.Offert = usuarios.Usuarios[0].oferta;
+
+            var sorted = from item in Items
+                         orderby item.Name
+                         group item by item.NameSort into monkeyGroup
+                         select new Grouping<string, Item>(monkeyGroup.Key, monkeyGroup);
+
+            ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
+
         }
 
 
         #endregion
     }
+
 }
+
