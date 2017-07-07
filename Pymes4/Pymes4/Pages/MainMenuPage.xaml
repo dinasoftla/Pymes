@@ -4,7 +4,6 @@
              x:Class="Pymes4.Pages.MainMenuPage"
              Title="MainMenuPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
-    
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
             <ScrollView
