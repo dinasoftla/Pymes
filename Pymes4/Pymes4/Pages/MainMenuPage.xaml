@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pymes4.Pages.MainMenuPage"
+             Title="MainMenuPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu">
+            <ScrollView
+            BindingContext="{Binding MainMenuPage}">
+                <StackLayout Orientation="Vertical" x:Name="MenuStack">
+                    <Label Text=""/>
+                   
+                </StackLayout>
+            </ScrollView>
+        </ContentPage>
+    </MasterDetailPage.Master>
+
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+
+            <ContentPage Title="Menú">
+                <Label Text="ASDASD"/>
+
+            </ContentPage>
+
+
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

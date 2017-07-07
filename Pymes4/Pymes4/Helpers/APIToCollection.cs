@@ -1,25 +1,24 @@
-﻿using Pymes4.Classes;
-using GalaSoft.MvvmLight.Command;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Pymes4.Classes;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Windows.Input;
-using Pymes4.Helpers;
-using Xamarin.Forms;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
-namespace Pymes4.ViewModels
+namespace Pymes4.Helpers
 {
-    public class ItemsPageViewModel : INotifyPropertyChanged
+    public class APIToCollection: ObservableCollection<Grouping<string, Item>>
     {
         #region Attributes
 
         public ObservableCollection<Item> Items { get; set; }
 
-        public ObservableCollection<Grouping<string, Item>> itemsGrouped { get; set; }
+        public ObservableCollection<Grouping<string, Item>> ItemsGrouped { get; set; }
 
         public int ItemCount => Items.Count;
 
@@ -31,7 +30,7 @@ namespace Pymes4.ViewModels
 
         private string message;
 
-        private string categoria;
+
         #endregion
 
         #region Events
@@ -51,36 +50,7 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
-        public string Categoria
-        {
-            set
-            {
-                if (categoria != value)
-                {
-                    categoria = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Categoria"));
-                }
-            }
-            get
-            {
-                return categoria;
-            }
-        }
-        public ObservableCollection<Grouping<string, Item>> ItemsGrouped
-        {
-            set
-            {
-                if (itemsGrouped != value)
-                {
-                    itemsGrouped = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ItemsGrouped"));
-                }
-            }
-            get
-            {
-                return itemsGrouped;
-            }
-        }
+
         public bool IsRunning
         {
             set
@@ -129,41 +99,9 @@ namespace Pymes4.ViewModels
         }
         #endregion
 
-        #region Constructors
-
-        public ItemsPageViewModel(String telefono, string pageapp)
-        {
-            //IsEnabled = false;
-            ////GetRates();
-            //LoadApiResult(Settings.Phone);
-            //Message = "Select the values";
-            
-            LoadApiResult(telefono, pageapp);
-            
-
-        }
-        #endregion
-
-        #region Commands
-
-        public ICommand RetriveProductsCommand { get { return new RelayCommand(LoadProducts); } }
-
-        private async void LoadProducts()
-        {
-            //LoadApiResult("71382211", "2");
-
-
-
-        }
-
-        #endregion
-
-
         #region Methods
-        
         public async void LoadApiResult(string phone, string pageapp)
         {
-            Categoria = pageapp + "Pagina bindada";
             //if (!String.IsNullOrEmpty(Settings.Phone))
             //{
             try
@@ -215,7 +153,7 @@ namespace Pymes4.ViewModels
                 {
                     Code = productos.Productos[i].codarticulo,
                     Name = productos.Productos[i].descripcion,
-                    Image = "http://192.168.0.12/appadmin/upload/" + productos.Productos[i].foto,
+                    Image = productos.Productos[i].foto,
                     Description = productos.Productos[i].caracteristicas,
                     Price = productos.Productos[i].precio
                 });
@@ -227,12 +165,11 @@ namespace Pymes4.ViewModels
                          select new Grouping<string, Item>(monkeyGroup.Key, monkeyGroup);
 
             ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
-            
+
         }
 
 
         #endregion
     }
-   
+    
 }
-

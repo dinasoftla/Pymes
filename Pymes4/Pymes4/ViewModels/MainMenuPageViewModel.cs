@@ -13,13 +13,13 @@ using System.Linq;
 
 namespace Pymes4.ViewModels
 {
-    public class ItemsPageViewModel : INotifyPropertyChanged
+    public class MainMenuPageViewModel : INotifyPropertyChanged
     {
         #region Attributes
 
         public ObservableCollection<Item> Items { get; set; }
 
-        public ObservableCollection<Grouping<string, Item>> itemsGrouped { get; set; }
+        public ObservableCollection<Grouping<string, Item>> ItemsGrouped { get; set; }
 
         public int ItemCount => Items.Count;
 
@@ -31,7 +31,7 @@ namespace Pymes4.ViewModels
 
         private string message;
 
-        private string categoria;
+
         #endregion
 
         #region Events
@@ -51,36 +51,7 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
-        public string Categoria
-        {
-            set
-            {
-                if (categoria != value)
-                {
-                    categoria = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Categoria"));
-                }
-            }
-            get
-            {
-                return categoria;
-            }
-        }
-        public ObservableCollection<Grouping<string, Item>> ItemsGrouped
-        {
-            set
-            {
-                if (itemsGrouped != value)
-                {
-                    itemsGrouped = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ItemsGrouped"));
-                }
-            }
-            get
-            {
-                return itemsGrouped;
-            }
-        }
+
         public bool IsRunning
         {
             set
@@ -131,14 +102,14 @@ namespace Pymes4.ViewModels
 
         #region Constructors
 
-        public ItemsPageViewModel(String telefono, string pageapp)
+        public MainMenuPageViewModel()
         {
             //IsEnabled = false;
             ////GetRates();
             //LoadApiResult(Settings.Phone);
             //Message = "Select the values";
-            
-            LoadApiResult(telefono, pageapp);
+
+            //LoadApiResult("71382211", "1");
             
 
         }
@@ -150,7 +121,7 @@ namespace Pymes4.ViewModels
 
         private async void LoadProducts()
         {
-            //LoadApiResult("71382211", "2");
+            LoadApiResult("71382211", "2");
 
 
 
@@ -163,7 +134,6 @@ namespace Pymes4.ViewModels
         
         public async void LoadApiResult(string phone, string pageapp)
         {
-            Categoria = pageapp + "Pagina bindada";
             //if (!String.IsNullOrEmpty(Settings.Phone))
             //{
             try
@@ -215,7 +185,7 @@ namespace Pymes4.ViewModels
                 {
                     Code = productos.Productos[i].codarticulo,
                     Name = productos.Productos[i].descripcion,
-                    Image = "http://192.168.0.12/appadmin/upload/" + productos.Productos[i].foto,
+                    Image = productos.Productos[i].foto,
                     Description = productos.Productos[i].caracteristicas,
                     Price = productos.Productos[i].precio
                 });
@@ -227,7 +197,7 @@ namespace Pymes4.ViewModels
                          select new Grouping<string, Item>(monkeyGroup.Key, monkeyGroup);
 
             ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
-            
+
         }
 
 

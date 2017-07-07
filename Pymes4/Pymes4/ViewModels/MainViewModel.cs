@@ -33,6 +33,9 @@ namespace Pymes4.ViewModels
         #region Properties
 
         public ItemsPageViewModel ItemsPage { get; set; }
+        public MainMenuPageViewModel MainMenuPage { get; set; }
+
+
 
         public bool IsRunning
         {
@@ -90,8 +93,9 @@ namespace Pymes4.ViewModels
             //GetRates();
             LoadApiResult(Settings.Phone);
             Message = "Select the values";
-            ItemsPage = new ItemsPageViewModel(); //nueva instancia de itempage
-
+           
+            //MainMenuPage = new MainMenuPageViewModel(); //nueva instancia de menupage para SUBBINDING EN PAGES
+            //ItemsPage = new ItemsPageViewModel("71382211", "1"); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
         #endregion
 
@@ -102,6 +106,8 @@ namespace Pymes4.ViewModels
         #region Methods
         public async void LoadApiResult(string phone)
         {
+
+           
             //if (!String.IsNullOrEmpty(Settings.Phone))
             //{
                 try
@@ -149,7 +155,7 @@ namespace Pymes4.ViewModels
         {
             if (usuarios.Usuarios[0].usuarioactivo == "1")
             {
-                App.Current.MainPage = new Pages.MenuPage();
+                App.Current.MainPage = new Pages.MainMenuPage();
             }
             else if (usuarios.Usuarios[0].usuarioactivo == "0")
             {

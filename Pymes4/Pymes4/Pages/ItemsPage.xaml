@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:control="clr-namespace:Pymes4.Controls"
              x:Class="Pymes4.Pages.ItemsPage"
-             Title="AKKAD - PYMES MOVIL"
-             BindingContext="{Binding Main, Source={StaticResource Locator}}">
-    <ScrollView
-        BindingContext="{Binding ItemsPage}">
+             Title="AKKAD - PYMES MOVIL">
+    <ScrollView>
         
             <ActivityIndicator
             IsRunning="{Binding IsRunning}">
@@ -21,6 +19,7 @@
                 GroupDisplayBinding = "{Binding Key}"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
             <ListView.Header>
+                <Label x:Name="lblCategoria" Text="{Binding Categoria}" HorizontalTextAlignment="Center"/>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
