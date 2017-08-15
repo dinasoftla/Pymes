@@ -114,8 +114,8 @@ namespace Pymes4.ViewModels
                 {
                     IsRunning = true;
                     HttpClient client = new HttpClient();
-                    client.BaseAddress = new Uri("http://192.168.0.12");
-                    string url = string.Format("/apirest/index.php/consultacliente/{0}", phone);
+                    client.BaseAddress = new Uri("http://192.168.0.17");
+                    string url = string.Format("/apirest/index.php/consultarcliente/{0}", phone);
                     var response = await client.GetAsync(url);
 
                     if (!response.IsSuccessStatusCode)
@@ -153,18 +153,18 @@ namespace Pymes4.ViewModels
 
         private void Successful()
         {
-            if (usuarios.Usuarios[0].usuarioactivo == "1")
+            if (usuarios.Usuarios[0].activo == "1")
             {
                 App.Current.MainPage = new Pages.MainMenuPage();
             }
-            else if (usuarios.Usuarios[0].usuarioactivo == "0")
+            else if (usuarios.Usuarios[0].activo == "0")
             {
                 App.Current.MainPage = new Pages.InactiveUsr();
             }
             Settings.Name = usuarios.Usuarios[0].nombre;
             Settings.Phone = usuarios.Usuarios[0].telefono;
             Settings.Email = usuarios.Usuarios[0].email;
-            Settings.ActiveUser = usuarios.Usuarios[0].usuarioactivo;
+            Settings.ActiveUser = usuarios.Usuarios[0].activo;
             Settings.Appointment = usuarios.Usuarios[0].cita;
             Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
             Settings.Offert = usuarios.Usuarios[0].oferta;

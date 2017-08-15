@@ -1,4 +1,5 @@
-﻿using Pymes4.ViewModels;
+﻿using Pymes4.Helpers;
+using Pymes4.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Pymes4.Pages
         public MainMenuPage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new ItemsPage("71382211","1"));
+            Detail = new NavigationPage(new ItemsPage(Settings.Phone, "1"));
             //ItemsPage = new ItemsPageViewModel("71382211", "2"); //nueva instancia de itempage para SUBBINDING EN PAGES
             IsPresented = true;
             MenuStack.Children.Add(new Button() { Text = "Categoria1", Command = new Command(OnAddControl) });
@@ -35,14 +36,14 @@ namespace Pymes4.Pages
         {
             //ItemsPage = new ItemsPageViewModel("71382211", "2"); //nueva instancia de itempage para SUBBINDING EN PAGES
 
-            Detail = new NavigationPage(new ItemsPage("71382211", "1"));
-            
+            Detail = new NavigationPage(new ItemsPage(Settings.Phone, "1"));
+
             IsPresented = true;
         }
         private void OnAddControl2()
         {
             
-            Detail = new NavigationPage(new ItemsPage("71382211", "2"));
+            Detail = new NavigationPage(new ItemsPage(Settings.Phone, "1"));
             //ItemsPage = new ItemsPageViewModel("71382211", "2"); //nueva instancia de itempage para SUBBINDING EN PAGES
             IsPresented = false;
         }

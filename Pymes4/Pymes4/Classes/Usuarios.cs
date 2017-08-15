@@ -14,7 +14,7 @@ namespace Pymes4.Classes
         public string nombre { get; set; }
         public string telefono { get; set; }
         public string email { get; set; }
-        public string usuarioactivo { get; set; }
+        public string activo { get; set; }
         public string cita { get; set; }
         public string estadocita { get; set; }
         public string oferta { get; set; }

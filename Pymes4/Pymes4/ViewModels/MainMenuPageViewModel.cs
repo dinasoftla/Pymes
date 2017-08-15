@@ -140,7 +140,7 @@ namespace Pymes4.ViewModels
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.12");
+                client.BaseAddress = new Uri("http://192.168.0.17");
                 string url = string.Format("/apirest/index.php/consultaproductos/{0}/{1}", phone, pageapp);
                 var response = await client.GetAsync(url);
 

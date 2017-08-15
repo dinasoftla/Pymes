@@ -34,7 +34,8 @@ namespace Pymes4.Helpers
         private const string SettingsAppointmentStatus = "AppointmentStatus";
         private static readonly string SettingsDefaultAppointmentStatus = string.Empty;
         private const string SettingsOffert = "Offert";
-        private static readonly string SettingsDefaultOffert = string.Empty; 
+        private static readonly string SettingsDefaultOffert = string.Empty;
+        
         #endregion
 
 
@@ -123,6 +124,6 @@ namespace Pymes4.Helpers
             }
 
         }
-        
+
     }
 }
