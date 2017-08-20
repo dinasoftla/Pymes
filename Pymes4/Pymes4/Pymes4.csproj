@@ -38,7 +38,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ItemPicking.cs" />
+    <Compile Include="Classes\PedidosAlistando.cs" />
+    <Compile Include="Classes\ItemShoppingCar.cs" />
     <Compile Include="Classes\Item.cs" />
+    <Compile Include="Classes\Carrito.cs" />
     <Compile Include="Classes\Productos.cs" />
     <Compile Include="Classes\Usuarios.cs" />
     <Compile Include="Controls\BindablePicker.cs" />
@@ -46,14 +50,29 @@
     <Compile Include="Helpers\Grouping.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
+    <Compile Include="Pages\Delivered.xaml.cs">
+      <DependentUpon>Delivered.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\InactiveUsr.xaml.cs">
       <DependentUpon>InactiveUsr.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ItemsPage.xaml.cs">
       <DependentUpon>ItemsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ItemsPageDetailAdd.xaml.cs">
+      <DependentUpon>ItemsPageDetailAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ItemsPageDetailDelete.xaml.cs">
+      <DependentUpon>ItemsPageDetailDelete.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MainMenuPage.xaml.cs">
       <DependentUpon>MainMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ShoppingCar.xaml.cs">
+      <DependentUpon>ShoppingCar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
@@ -62,6 +81,8 @@
     <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
     <Compile Include="ViewModels\ItemsPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\DeliveredViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingCarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -130,6 +151,36 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\MainMenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\ShoppingCar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Delivered.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\ItemsPageDetailDelete.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\ItemsPageDetailAdd.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Test.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

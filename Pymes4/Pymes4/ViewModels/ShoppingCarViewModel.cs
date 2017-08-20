@@ -1,29 +1,32 @@
-﻿using Pymes4.Classes;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
+using Pymes4.Classes;
+using Pymes4.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Windows.Input;
-using Pymes4.Helpers;
-using Xamarin.Forms;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Pymes4.ViewModels
 {
-    public class ItemsPageViewModel : INotifyPropertyChanged
+    
+    public class ShoppingCarViewModel : INotifyPropertyChanged
     {
         #region Attributes
 
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<ItemShoppingCar> ItemShoppingCar { get; set; }
 
-        public ObservableCollection<Grouping<string, Item>> itemsGrouped { get; set; }
+        public ObservableCollection<Grouping<int, ItemShoppingCar>> itemsGrouped { get; set; }
 
-        public int ItemCount => Items.Count;
+        public int ItemCount => ItemShoppingCar.Count;
 
-        private RootObjectProductos productos;
+        private RootObjectProductosCarrito productoscarrito;
 
         private bool isRunning;
 
@@ -66,7 +69,7 @@ namespace Pymes4.ViewModels
                 return categoria;
             }
         }
-        public ObservableCollection<Grouping<string, Item>> ItemsGrouped
+        public ObservableCollection<Grouping<int, ItemShoppingCar>> ItemsGrouped
         {
             set
             {
@@ -131,8 +134,8 @@ namespace Pymes4.ViewModels
 
         #region Constructors
 
-        public ItemsPageViewModel(String telefono, string pageapp)
-        {           
+        public ShoppingCarViewModel(String telefono, string pageapp)
+        {
             LoadApiResult(telefono, pageapp);
         }
         #endregion
@@ -150,7 +153,7 @@ namespace Pymes4.ViewModels
 
 
         #region Methods
-        
+
         public async void LoadApiResult(string phone, string pageapp)
         {
             //Categoria = pageapp + "Pagina bindada";
@@ -161,8 +164,8 @@ namespace Pymes4.ViewModels
                 IsRunning = true;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("http://192.168.0.17");
-                string url = string.Format("/apirest/index.php/consultarproductos/{0}/{1}", phone, pageapp);
-                var response = await client.GetAsync(url);
+                string url = string.Format("/apirest/index.php/vercarrito/{0}/{1}", phone, pageapp);
+                var response = await client.GetAsync(url); 
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -175,7 +178,7 @@ namespace Pymes4.ViewModels
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     //Crear clase interface para notificaciones:
-                    productos = JsonConvert.DeserializeObject<RootObjectProductos>(result);
+                    productoscarrito = JsonConvert.DeserializeObject<RootObjectProductosCarrito>(result);
                 }
 
             }
@@ -197,32 +200,35 @@ namespace Pymes4.ViewModels
 
         private void Successful()
         {
-            Items = new ObservableCollection<Item>();
+            ItemShoppingCar = new ObservableCollection<ItemShoppingCar>();
 
-            for (int i = 0; i < productos.Productos.Count; i++)
+            for (int i = 0; i < productoscarrito.ProductosCarrito.Count; i++)
             {
-                Items.Add(new Item
+                ItemShoppingCar.Add(new ItemShoppingCar
                 {
-                    Code = productos.Productos[i].codarticulo,
-                    Name = productos.Productos[i].descripcion,
-                    Image = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto,
-                    Description = productos.Productos[i].caracteristicas,
-                    Price = productos.Productos[i].precio
+                    Order = productoscarrito.ProductosCarrito[i].codpedidoactual,
+                    UserId = productoscarrito.ProductosCarrito[i].codusuario,
+                    Code = productoscarrito.ProductosCarrito[i].codarticulo,
+                    Image = "http://192.168.0.17/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto,
+                    Description = productoscarrito.ProductosCarrito[i].descripcion,
+                    Quantity = productoscarrito.ProductosCarrito[i].cantidad,
+                    Date = productoscarrito.ProductosCarrito[i].fecha.Substring(0,10),
+                    Price = productoscarrito.ProductosCarrito[i].precio,
+                    Total = productoscarrito.ProductosCarrito[i].total,
+                    Status = productoscarrito.ProductosCarrito[i].estado 
                 });
             }
 
-            var sorted = from item in Items
-                         orderby item.Name
-                         group item by item.NameSort into monkeyGroup
-                         select new Grouping<string, Item>(monkeyGroup.Key, monkeyGroup);
+            var sorted = from ItemShoppingCar in ItemShoppingCar
+                         orderby ItemShoppingCar.Description
+                         group ItemShoppingCar by ItemShoppingCar.DescriptionSort into monkeyGroup
+                         select new Grouping<int, ItemShoppingCar>(monkeyGroup.Key, monkeyGroup);
 
-            ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
-            
+            ItemsGrouped = new ObservableCollection<Grouping<int, ItemShoppingCar>>(sorted);
+
         }
 
 
         #endregion
     }
-   
 }
-

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pymes4.Pages.Test">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Grid.Column="0">
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.Column="0" HorizontalOptions="Center">
+                    <Label x:Name="codigo" Text="ART001" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="Black" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="2" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1" >
+                    <Label x:Name="order" Text="Orden:" Grid.Row="0" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
+                    <Label x:Name="numorden" Text="7777" Grid.Row="0" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalOptions="End">
+                    <Label x:Name="date" Text="11/11/2017" Grid.Row="0" Grid.Column="0" FontAttributes="None" TextColor="#aaaaaa"/>
+                </StackLayout>
+
+                <Image Source="Image" x:Name="btn4" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
+                <Label x:Name="btn5" Text="Description" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Micro" TextColor="Black"/>
+                <Label x:Name="btn6" Text="Status" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="#C4070F"/>
+
+                <StackLayout Orientation="Horizontal" Padding="3" BackgroundColor= "#cccccc" Grid.Row="3" Grid.ColumnSpan="4" Grid.Column="0" HorizontalOptions="Fill">
+                    <Label x:Name="Quantity" Text="Cantidad:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
+                    <Label x:Name="btn7" Text="Quantity" Grid.Row="3" Grid.Column="0" FontAttributes="Bold" TextColor="Black"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor= "#cccccc" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="1" HorizontalOptions="Fill">
+                    <Label x:Name="Price" Text="Precio:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
+                    <Label x:Name="PriceColon" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
+                    <Label x:Name="btn8" Text="Price" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="3" BackgroundColor="#C4070F" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="2" HorizontalOptions="End">
+                    <Label x:Name="Total" Text="Total:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
+                    <Label x:Name="PriceColonTotal" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="White" />
+                    <Label x:Name="Totalbinding" Text="Total" Grid.Row="3" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
+                </StackLayout>
+
+
+            </Grid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

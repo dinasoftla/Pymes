@@ -1,4 +1,5 @@
 ﻿using Pymes4.Classes;
+using Pymes4.Helpers;
 using Pymes4.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,10 @@ namespace Pymes4.Pages
                 var item = ((ListView)sender).SelectedItem as Item;
                 if (item == null)
                     return;
+
+            //llama nueva pagina 
+            Navigation.PushAsync(new ItemsPageDetailAdd());
+
             }
         #endregion
 
