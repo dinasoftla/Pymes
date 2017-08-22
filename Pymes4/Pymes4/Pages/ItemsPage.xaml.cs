@@ -28,18 +28,18 @@ namespace Pymes4.Pages
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
             => ((ListView)sender).SelectedItem = null;
 
-            void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-            {
-                var item = ((ListView)sender).SelectedItem as Item;
-                if (item == null)
-                    return;
+        void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView)sender).SelectedItem as Item;
+            if (item == null)
+                return;
 
             //llama nueva pagina 
-            Navigation.PushAsync(new ItemsPageDetailAdd());
+            Navigation.PushAsync(new ItemsPageDetailAdd(item));
 
-            }
+        }
         #endregion
 
     }
-    
+
 }

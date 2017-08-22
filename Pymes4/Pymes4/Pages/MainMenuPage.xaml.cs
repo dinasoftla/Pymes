@@ -36,7 +36,7 @@ namespace Pymes4.Pages
         {
             //ItemsPage = new ItemsPageViewModel("71382211", "2"); //nueva instancia de itempage para SUBBINDING EN PAGES
             Detail = new NavigationPage(new ItemsPage(Settings.Phone, "1"));
-            IsPresented = true;
+            IsPresented = false;
         }
         private void OnAddControl2()
         {

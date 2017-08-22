@@ -12,7 +12,7 @@ namespace Pymes4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemsPageDetailDelete : ContentPage
-    {
+    { 
         public ItemsPageDetailDelete(ItemShoppingCar ItemShoppingCar)
         {
             InitializeComponent();

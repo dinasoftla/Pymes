@@ -4,11 +4,11 @@
              x:Class="Pymes4.Pages.ItemsPageDetailAdd"
              Title="Detalle Del Producto">
     <ScrollView>
-        <StackLayout Padding="10">
+        <StackLayout Padding="10" >
             <StackLayout Spacing="0" Padding="0" >
 
                 <StackLayout Orientation="Horizontal" Padding="8" HorizontalOptions="Center">
-                    <Label Text="ART001" HorizontalTextAlignment="Center" FontSize="40"/>
+                    <Label Text="{Binding Code}" HorizontalTextAlignment="Center" FontSize="40"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8" HorizontalOptions="Center">
                     <Label Text="SHAMPO 001" HorizontalTextAlignment="Center"/>

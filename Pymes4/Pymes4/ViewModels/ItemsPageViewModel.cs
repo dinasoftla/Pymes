@@ -38,10 +38,10 @@ namespace Pymes4.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        public void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
             => ((ListView)sender).SelectedItem = null;
 
-        void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        public void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = ((ListView)sender).SelectedItem as Item;
             if (item == null)

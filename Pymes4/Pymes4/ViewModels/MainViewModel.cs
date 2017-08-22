@@ -162,7 +162,7 @@ namespace Pymes4.ViewModels
                 App.Current.MainPage = new Pages.InactiveUsr();
             }
             Settings.Name = usuarios.Usuarios[0].nombre;
-            Settings.Phone = usuarios.Usuarios[0].telefono;
+            Settings.Phone = usuarios.Usuarios[0].telefonos;
             Settings.Email = usuarios.Usuarios[0].email;
             Settings.ActiveUser = usuarios.Usuarios[0].activo;
             Settings.Appointment = usuarios.Usuarios[0].cita;
