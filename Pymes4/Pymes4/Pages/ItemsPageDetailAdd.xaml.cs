@@ -17,7 +17,7 @@ namespace Pymes4.Pages
         public ItemsPageDetailAdd(Item item)
         {
             InitializeComponent();
-            BindingContext = new ItemsPageDetailAddViewModel(item); //nueva instancia de itempage para SUBBINDING EN PAGES
+            BindingContext = new ItemsPageDetailAddViewModel(item, Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
     }
 }

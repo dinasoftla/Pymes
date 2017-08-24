@@ -7,8 +7,11 @@
         <ActivityIndicator
             IsRunning="{Binding IsRunning}">
         </ActivityIndicator>
+   
         <Label Text="Cargando Productos..." HorizontalTextAlignment="Center"/>
         <ListView ItemsSource="{Binding ItemsGrouped}"
+                ItemTapped="Handle_ItemTapped"
+                ItemSelected="Handle_ItemSelected"
                 HasUnevenRows="true"
                 GroupShortNameBinding = "{Binding Key}"
                 IsGroupingEnabled = "true"

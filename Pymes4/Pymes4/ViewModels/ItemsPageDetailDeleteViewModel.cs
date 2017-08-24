@@ -14,7 +14,7 @@ using Pymes4.Pages;
 
 namespace Pymes4.ViewModels
 {
-    public class ItemsPageDetailAddViewModel : INotifyPropertyChanged
+    public class ItemsPageDetailDeleteViewModel : INotifyPropertyChanged
     {
         INavigation Navigation;// Se declara la variable de navegacion 1) parte
 
@@ -22,6 +22,7 @@ namespace Pymes4.ViewModels
 
         private bool isEnabled;
         private bool isRunning;
+        private string order;
         private string code;
         private string name;
         private string description;
@@ -73,6 +74,21 @@ namespace Pymes4.ViewModels
             get
             {
                 return isEnabled;
+            }
+        }
+        public string Order
+        {
+            set
+            {
+                if (order != value)
+                {
+                    order = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Code"));
+                }
+            }
+            get
+            {
+                return order;
             }
         }
         public string Code
@@ -241,8 +257,6 @@ namespace Pymes4.ViewModels
                 return cantidadPedida;
             }
         }
-
-
         public string Message
         {
             set
@@ -262,12 +276,13 @@ namespace Pymes4.ViewModels
 
         #region Constructors
 
-        public ItemsPageDetailAddViewModel(Item item, INavigation PageNav)
+        public ItemsPageDetailDeleteViewModel(ItemShoppingCar item, INavigation PageNav)
         {
+            Order = item.Order;
             Code = item.Code;
             Name = item.Name;
             Description = item.Description;
-            Image1 = item.Image;
+            Image1 = item.Image1;
             Image2 = item.Image2;
             Image3 = item.Image3;
             Category = item.Category;
@@ -275,42 +290,31 @@ namespace Pymes4.ViewModels
             Guarantee = item.Guarantee;
             Price = item.Price;
 
+
             //Recibe la pagina de navegacion para ser utilizada 2) parte
             Navigation = PageNav;
-          
+
 
         }
         #endregion
 
         #region Commands
 
-        public ICommand OrderProductCommand { get { return new RelayCommand(OrderProduct); } }
+        public ICommand DeleteOrderCommand { get { return new RelayCommand(DeleteOrder); } }
 
         #endregion
 
 
         #region Methods
 
-        private async void OrderProduct()
-        {
-            if (CantidadPedida > 0)
-            {
-                AgregarArticulo();
-            }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "La cantidad debe ser mayor a Cero", "Aceptar");
-            }
-            //}
-        }
-        private async void AgregarArticulo()
+        private async void DeleteOrder()
         {
             try
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("http://192.168.0.17");
-                string url = string.Format("/apirest/index.php/agregaralpedido/{0}/{1}/{2}", Settings.Phone, Code, CantidadPedida);
+                string url = string.Format("/apirest/index.php/borrarenpedido/{0}/{1}", Settings.Phone, Order);
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
@@ -340,7 +344,9 @@ namespace Pymes4.ViewModels
             Successful();
             IsRunning = false;
             IsEnabled = true;
+            //}
         }
+
 
         public async Task Successful()
         {

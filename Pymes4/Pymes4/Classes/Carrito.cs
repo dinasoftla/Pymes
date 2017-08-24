@@ -12,10 +12,15 @@ namespace Pymes4.Classes
         public string codusuario { get; set; }
         public string codarticulo { get; set; }
         public string foto { get; set; }
+        public string foto2 { get; set; }
+        public string foto3 { get; set; }
         public string descripcion { get; set; }
         public string cantidad { get; set; }
         public string precio { get; set; }
         public string total { get; set; }
+        public string linea { get; set; }
+        public string calificacion { get; set; }
+        public string garantia { get; set; }
         public string estado { get; set; }
         public string fecha { get; set; }
         public string codpedidoactual { get; set; }

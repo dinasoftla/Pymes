@@ -18,10 +18,10 @@ namespace Pymes4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemsPage : ContentPage
     {
-        public ItemsPage(String telefono, string pageapp)
+        public ItemsPage(string pageapp)
         {
             InitializeComponent();
-            BindingContext = new ItemsPageViewModel(telefono, pageapp); //nueva instancia de itempage para SUBBINDING EN PAGES
+            BindingContext = new ItemsPageViewModel(Settings.Phone, pageapp); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
 
         #region Poner en el view model (OJO ESTO ES TEMPORAL)

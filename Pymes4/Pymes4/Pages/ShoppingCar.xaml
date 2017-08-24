@@ -48,7 +48,7 @@
                                 <Label x:Name="date" Text="{Binding Date}" Grid.Row="0" Grid.Column="0" FontAttributes="None" TextColor="#aaaaaa"/>
                             </StackLayout>
 
-                            <Image Source="{Binding Image}" x:Name="btn4" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
+                            <Image Source="{Binding Image1}" x:Name="btn4" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
                             <Label x:Name="btn5" Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Micro" TextColor="Black"/>
                             <Label x:Name="btn6" Text="{Binding Status}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="#C4070F"/>
 

@@ -11,32 +11,32 @@
                     <Label Text="{Binding Code}" HorizontalTextAlignment="Center" FontSize="40"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8" HorizontalOptions="Center">
-                    <Label Text="SHAMPO 001" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Name}" HorizontalTextAlignment="Center"/>
                 </StackLayout>
-                <Image HorizontalOptions="Center" Source="http://192.168.0.17/sistema/upload/champu.png"/>
+                <Image HorizontalOptions="Center" Source="{Binding Image1}"/>
                 <StackLayout Orientation="Horizontal" Padding="8" BackgroundColor="Gray">
                     <Label FontSize="14" Text="Cantidad:" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Entry Keyboard="Numeric" Text="0" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                    <Button Text="AGREGAR AL PEDIDO" Grid.Row="1" Grid.Column="1" Command="{Binding IncreaseCountCommand}"/>
+                    <Entry Keyboard="Numeric" Text="{Binding CantidadPedida}" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                    <Button Text="AGREGAR AL PEDIDO" Grid.Row="1" Grid.Column="1" Command="{Binding OrderProductCommand}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
                     <Label FontSize="14" Text="Precio:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label Text="$2343" />
+                    <Label Text="{Binding Price}" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
                     <Label FontSize="14" Text="Linea:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label Text="CABELLO" />
+                    <Label Text="{Binding Category}" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
                     <Label FontSize="14" Text="Calificación:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label Text="AAA" />
+                    <Label Text="{Binding Qualification}" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
                     <Label FontSize="14" Text="Garantía:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Label Text="N/A" />
+                    <Label Text="{Binding Guarantee}" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
-                    <Label Text="El champú limpia separando el sebo del cabello. El sebo es un aceite segregado por las glándulas sebáceas, que a su vez es expulsado al exterior mediante los folículos pilosos (invaginaciones en la dermis). El sebo es fácilmente absorbido por los cabellos formando una capa protectora." />
+                    <Label Text="{Binding Description}" />
                 </StackLayout>
             </StackLayout>
 

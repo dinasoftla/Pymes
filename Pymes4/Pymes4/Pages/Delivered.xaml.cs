@@ -19,5 +19,20 @@ namespace Pymes4.Pages
             InitializeComponent();
             BindingContext = new DeliveredViewModel(telefono, "1"); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
+        #region Poner en el view model (OJO ESTO ES TEMPORAL)
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+            => ((ListView)sender).SelectedItem = null;
+
+        void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView)sender).SelectedItem as Item;
+            if (item == null)
+                return;
+
+            //llama nueva pagina 
+           
+
+        }
+        #endregion
     }
 }

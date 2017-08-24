@@ -205,8 +205,13 @@ namespace Pymes4.ViewModels
                 {
                     Code = productos.Productos[i].codarticulo,
                     Name = productos.Productos[i].descripcion,
-                    Image = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto,
                     Description = productos.Productos[i].caracteristicas,
+                    Image = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto,
+                    Image2 = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto2,
+                    Image3 = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto3,
+                    Category = productos.Productos[i].linea,
+                    Qualification = productos.Productos[i].calificacion,
+                    Guarantee = productos.Productos[i].garantia,
                     Price = productos.Productos[i].precio
                 });
             }

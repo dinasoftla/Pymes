@@ -1,4 +1,5 @@
 ﻿using Pymes4.Classes;
+using Pymes4.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Pymes4.Pages
         public ItemsPageDetailDelete(ItemShoppingCar ItemShoppingCar)
         {
             InitializeComponent();
+            BindingContext = new ItemsPageDetailDeleteViewModel(ItemShoppingCar, Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
     }
 }

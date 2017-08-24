@@ -78,6 +78,7 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ItemsPageDetailDeleteViewModel.cs" />
     <Compile Include="ViewModels\ItemsPageDetailAddViewModel.cs" />
     <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
     <Compile Include="ViewModels\ItemsPageViewModel.cs" />
