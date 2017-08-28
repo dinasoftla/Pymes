@@ -20,6 +20,7 @@ namespace Pymes4.Classes
         public string Guarantee { get; set; }
         public string Qualification { get; set; }
         public string Category { get; set; }
+        public string ImageShoppingCar { get; set; }
         public string NameSort => Name[0].ToString();
     }
 }

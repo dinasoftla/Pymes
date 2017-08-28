@@ -17,7 +17,7 @@ namespace Pymes4.Pages
         public ShoppingCar(string telefono)
         {
             InitializeComponent();
-            BindingContext = new ShoppingCarViewModel("71382211", "1"); //nueva instancia de itempage para SUBBINDING EN PAGES
+            BindingContext = new ShoppingCarViewModel("71382211", "1", Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
         #region Poner en el view model (OJO ESTO ES TEMPORAL)
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

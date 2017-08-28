@@ -16,9 +16,9 @@ namespace Pymes4.ViewModels
 {
     public class ItemsPageDetailDeleteViewModel : INotifyPropertyChanged
     {
-        INavigation Navigation;// Se declara la variable de navegacion 1) parte
 
         #region Attributes
+        INavigation Navigation;// Se declara la variable de navegacion 1) parte
 
         private bool isEnabled;
         private bool isRunning;

@@ -204,7 +204,7 @@ namespace Pymes4.ViewModels
                 Items.Add(new Item
                 {
                     Code = productos.Productos[i].codarticulo,
-                    Name = productos.Productos[i].descripcion,
+                    Name = productos.Productos[i].descripcion + " " + productos.Productos[i].codarticulo,
                     Description = productos.Productos[i].caracteristicas,
                     Image = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto,
                     Image2 = "http://192.168.0.17/sistema/upload/" + productos.Productos[i].foto2,
@@ -212,7 +212,8 @@ namespace Pymes4.ViewModels
                     Category = productos.Productos[i].linea,
                     Qualification = productos.Productos[i].calificacion,
                     Guarantee = productos.Productos[i].garantia,
-                    Price = productos.Productos[i].precio
+                    Price = productos.Productos[i].precio,
+                    ImageShoppingCar = "http://192.168.0.17/sistema/" + "/phpimages/shoppingcar.png"
                 });
             }
 

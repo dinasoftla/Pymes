@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Pymes4.Classes;
 using Pymes4.Helpers;
+using Pymes4.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ namespace Pymes4.ViewModels
     {
         #region Attributes
 
+        INavigation Navigation;// Se declara la variable de navegacion 1) parte
+
         public ObservableCollection<ItemShoppingCar> ItemShoppingCar { get; set; }
 
         public ObservableCollection<Grouping<int, ItemShoppingCar>> itemsGrouped { get; set; }
@@ -32,9 +35,15 @@ namespace Pymes4.ViewModels
 
         private bool isEnabled;
 
+        private decimal totalcarrito;
+
+        private string nota;
+
         private string message;
 
         private string categoria;
+
+
         #endregion
 
         #region Events
@@ -54,6 +63,38 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
+        public decimal TotalCarrito
+        {
+            set
+            {
+                if (totalcarrito != value)
+                {
+                    totalcarrito = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalCarrito"));
+                }
+            }
+            get
+            {
+                return totalcarrito;
+            }
+        }
+
+        public string Nota
+        {
+            set
+            {
+                if (nota != value)
+                {
+                    nota = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Nota"));
+                }
+            }
+            get
+            {
+                return nota;
+            }
+        }
+
         public string Categoria
         {
             set
@@ -134,19 +175,63 @@ namespace Pymes4.ViewModels
 
         #region Constructors
 
-        public ShoppingCarViewModel(String telefono, string pageapp)
+        public ShoppingCarViewModel(String telefono, string pageapp, INavigation PageNav)
         {
             LoadApiResult(telefono, pageapp);
+
+            //Recibe la pagina de navegacion para ser utilizada 2) parte
+            Navigation = PageNav;
+
         }
         #endregion
 
         #region Commands
 
-        public ICommand RetriveProductsCommand { get { return new RelayCommand(LoadProducts); } }
+        public ICommand CreateOrderCommand { get { return new RelayCommand(CreateOrder); } }
 
-        private async void LoadProducts()
+        private async void CreateOrder()
         {
-            //LoadApiResult("71382211", "2");
+            string nota = string.Empty;
+            if (String.IsNullOrEmpty(Nota))
+            {
+                nota = "Ninguna";
+            }
+            try
+            {
+                IsRunning = true;
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri("http://192.168.0.17");
+                string url = string.Format("/apirest/index.php/crearpedido/{0}/{1}", Settings.Phone, nota);
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", response.StatusCode.ToString(), "Aceptar");
+                    IsRunning = false;
+                    IsEnabled = false;
+                    return;
+                }
+                else
+                {
+                    //var result = await response.Content.ReadAsStringAsync();
+                    ////Crear clase interface para notificaciones:
+                    //usuarios = JsonConvert.DeserializeObject<RootObjectUsuarios>(result);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error De Conexión", ex.Message, "Aceptar");
+                IsRunning = false;
+                IsEnabled = false;
+                return;
+            }
+            //
+
+            OrderSuccessful();
+            IsRunning = false;
+            IsEnabled = true;
+            //}
         }
 
         #endregion
@@ -201,6 +286,7 @@ namespace Pymes4.ViewModels
         private void Successful()
         {
             ItemShoppingCar = new ObservableCollection<ItemShoppingCar>();
+            decimal total;
 
             for (int i = 0; i < productoscarrito.ProductosCarrito.Count; i++)
             {
@@ -222,6 +308,13 @@ namespace Pymes4.ViewModels
                     Total = productoscarrito.ProductosCarrito[i].total,
                     Status = productoscarrito.ProductosCarrito[i].estado 
                 });
+
+                try
+                { total = Convert.ToDecimal(productoscarrito.ProductosCarrito[i].total);}
+                catch (Exception e)
+                { total = 0; }
+
+                TotalCarrito = totalcarrito + total;
             }
 
             var sorted = from ItemShoppingCar in ItemShoppingCar
@@ -231,6 +324,12 @@ namespace Pymes4.ViewModels
 
             ItemsGrouped = new ObservableCollection<Grouping<int, ItemShoppingCar>>(sorted);
 
+        }
+        public async Task OrderSuccessful()
+        {
+            //Remueve la pagina superior de la navegacion (Es como dar click en "atras")
+            //La variable Navigation fue recibida de la ventana anterior, fue necesario declararla en la clase actual para poder usarla;
+            await Navigation.PushAsync(new Delivered(Settings.Phone));
         }
 
 

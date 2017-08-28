@@ -15,16 +15,16 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                
 
-                <Label x:Name="btn1" Text="Code" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="#4B4F47" HorizontalTextAlignment="Center"/>
-                <Label x:Name="btn2" Text="Name" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="Black"/>
-                <Image Source="{Binding Image}" x:Name="btns3" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="3"  FontAttributes="Bold" TextColor="Black"/>
-                <Image Source="{Binding Image}" x:Name="btn3" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
-                <Label x:Name="btnd4" Text="Price" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="#C4070F"/>
-                <Label x:Name="btnw5" Text="Description" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Micro"/>
+                <Label x:Name="codigo" Text="Binding Code" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" FontSize="Micro" HorizontalTextAlignment="Center"/>
+                <Label x:Name="btn2" Text="Binding Name" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="Black"/>
+                <Image Source="{Binding ImageShoppingCar}" x:Name="btns3" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="2"/>
+                <Image Source="{Binding Image}" x:Name="btn3" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" />
+                <Label x:Name="btnd4" Text="Binding Price" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="#C4070F"/>
+                <Label x:Name="btnw5" Text="Binding Description" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Micro"/>
 
             </Grid>
 
