@@ -14,10 +14,17 @@ namespace Pymes4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShoppingCar : ContentPage
     {
-        public ShoppingCar(string telefono)
+        public ShoppingCar()
         {
             InitializeComponent();
-            BindingContext = new ShoppingCarViewModel("71382211", "1", Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES
+
+            var mainViewModel = MainViewModel.GetInstance();
+
+            base.Appearing += (object sender, EventArgs e) => {
+                mainViewModel.LoadProductsCommand.Execute(this);
+            };
+
+            //BindingContext = new ShoppingCarViewModel("71382211", "1", Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES
         }
         #region Poner en el view model (OJO ESTO ES TEMPORAL)
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

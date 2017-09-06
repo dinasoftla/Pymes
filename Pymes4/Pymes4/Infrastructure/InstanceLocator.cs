@@ -10,10 +10,12 @@ namespace Pymes4.Infrastructure
     public class InstanceLocator //Clase Creada a pie para relacionar el mainviewmodel
     {
         public MainViewModel Main { get; set; }
+        public ShoppingCarViewModel ShoppingCar { get; set; }
 
         public InstanceLocator()
         {
             Main = new MainViewModel();
+            ShoppingCar = new ShoppingCarViewModel();
         }
     }
 

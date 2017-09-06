@@ -51,6 +51,9 @@
     <Compile Include="Helpers\Grouping.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Infrastructure\InstanceLocator.cs" />
+    <Compile Include="Pages\Categories.xaml.cs">
+      <DependentUpon>Categories.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Delivered.xaml.cs">
       <DependentUpon>Delivered.xaml</DependentUpon>
     </Compile>
@@ -79,9 +82,10 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModels\ItemsPageDetailDeleteViewModel.cs" />
     <Compile Include="ViewModels\ItemsPageDetailAddViewModel.cs" />
-    <Compile Include="ViewModels\MainMenuPageViewModel.cs" />
+    <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\ItemsPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\DeliveredViewModel.cs" />
@@ -184,6 +188,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Test.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Categories.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -2,7 +2,6 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pymes4.Pages.MainMenuPage"
-             Title="MainMenuPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
@@ -17,13 +16,7 @@
     </MasterDetailPage.Master>
 
     <MasterDetailPage.Detail>
-        <NavigationPage>
-
-            <ContentPage Title="Menú">
-                <Label Text="ASDASD"/>
-
-            </ContentPage>
-
+        <NavigationPage BindingContext="{Binding NavPage}">
 
         </NavigationPage>
     </MasterDetailPage.Detail>

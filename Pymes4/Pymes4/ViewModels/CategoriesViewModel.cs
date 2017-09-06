@@ -1,47 +1,60 @@
-﻿using Pymes4.Classes;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
+using Pymes4.Classes;
+using Pymes4.Helpers;
+using Pymes4.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Windows.Input;
-using Pymes4.Helpers;
-using Xamarin.Forms;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Pymes4.ViewModels
 {
-    public class ItemsPageViewModel : INotifyPropertyChanged
+
+    public class CategoriesViewModel : INotifyPropertyChanged
     {
         #region Attributes
 
-        public ObservableCollection<Item> Items { get; set; }
+        INavigation Navigation;// Se declara la variable de navegacion 1) parte
 
-        public ObservableCollection<Grouping<string, Item>> itemsGrouped { get; set; }
+        private RootObjectCategorias categorias;
 
-        public int ItemCount => Items.Count;
+        public ObservableCollection<ItemShoppingCar> ItemShoppingCar { get; set; }
 
-        private RootObjectProductos productos;
+        public ObservableCollection<Grouping<int, ItemShoppingCar>> itemsGrouped { get; set; }
+
+        public int ItemCount => ItemShoppingCar.Count;
 
         private bool isRunning;
 
         private bool isEnabled;
 
+        private decimal totalcarrito;
+
+        private string nota;
+
         private string message;
 
         private string categoria;
+
+        StackLayout stacklayout;
+
         #endregion
 
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
             => ((ListView)sender).SelectedItem = null;
 
-        public void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = ((ListView)sender).SelectedItem as Item;
             if (item == null)
@@ -51,6 +64,38 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
+        public decimal TotalCarrito
+        {
+            set
+            {
+                if (totalcarrito != value)
+                {
+                    totalcarrito = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalCarrito"));
+                }
+            }
+            get
+            {
+                return totalcarrito;
+            }
+        }
+
+        public string Nota
+        {
+            set
+            {
+                if (nota != value)
+                {
+                    nota = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Nota"));
+                }
+            }
+            get
+            {
+                return nota;
+            }
+        }
+
         public string Categoria
         {
             set
@@ -66,7 +111,7 @@ namespace Pymes4.ViewModels
                 return categoria;
             }
         }
-        public ObservableCollection<Grouping<string, Item>> ItemsGrouped
+        public ObservableCollection<Grouping<int, ItemShoppingCar>> ItemsGrouped
         {
             set
             {
@@ -127,34 +172,41 @@ namespace Pymes4.ViewModels
                 return message;
             }
         }
+        public StackLayout Stacklayout
+        {
+            set
+            {
+                if (stacklayout != value)
+                {
+                    stacklayout = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StackLayout"));
+                }
+            }
+            get
+            {
+                return stacklayout;
+            }
+        }
         #endregion
 
         #region Constructors
 
-        public ItemsPageViewModel(String telefono, string pageapp, string category)
-        {           
-            LoadApiResult(telefono, pageapp, category);
+        public CategoriesViewModel(StackLayout MenuStack, INavigation PageNav)
+        {
+      
+            //Recibe la pagina de navegacion para ser utilizada 2) parte
+            Navigation = PageNav;
+            Stacklayout = MenuStack;
+            CreateOrder();
         }
         #endregion
 
         #region Commands
 
-        //public ICommand RetriveProductsCommand { get { return new RelayCommand(LoadProducts); } }
+        public ICommand CreateOrderCommand { get { return new RelayCommand(CreateOrder); } }
 
-
-        //private async void LoadProducts()
-        //{
-        //    LoadApiResult("71382211", "2", "1");
-        //}
-
-        #endregion
-
-
-        #region Methods
-        
-        public async void LoadApiResult(string phone, string pageapp, string category)
+        public async void CreateOrder()
         {
-            //Categoria = pageapp + "Pagina bindada";
             //if (!String.IsNullOrEmpty(Settings.Phone))
             //{
             try
@@ -162,7 +214,7 @@ namespace Pymes4.ViewModels
                 IsRunning = true;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Settings.ApiAddress);
-                string url = string.Format("/apirest/index.php/consultarproductos/{0}/{1}/{2}", phone, pageapp, category);
+                string url = string.Format("/apirest/index.php/consultarcategorias/{0}", Settings.Phone);
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
@@ -176,7 +228,7 @@ namespace Pymes4.ViewModels
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     //Crear clase interface para notificaciones:
-                    productos = JsonConvert.DeserializeObject<RootObjectProductos>(result);
+                    categorias = JsonConvert.DeserializeObject<RootObjectCategorias>(result);
                 }
 
             }
@@ -189,47 +241,46 @@ namespace Pymes4.ViewModels
             }
             //
 
-            Successful();
+            OrderSuccessful();
             IsRunning = false;
             IsEnabled = true;
             //}
 
         }
 
-        private void Successful()
+        #endregion
+
+
+        #region Methods
+
+        public async Task OrderSuccessful()
         {
-            Items = new ObservableCollection<Item>();
+         
+            string cod_linea = String.Empty;
+            string description = String.Empty;
 
-            for (int i = 0; i < productos.Productos.Count; i++)
+            for (int i = 0; i < categorias.Categorias.Count; i++)
             {
-                Items.Add(new Item
-                {
-                    Code = productos.Productos[i].codarticulo,
-                    Name = productos.Productos[i].descripcion + " " + productos.Productos[i].codarticulo,
-                    Description = productos.Productos[i].caracteristicas,
-                    Image = Settings.ApiAddress + "/sistema/upload/" + productos.Productos[i].foto,
-                    Image2 = Settings.ApiAddress + "/sistema/upload/" + productos.Productos[i].foto2,
-                    Image3 = Settings.ApiAddress + "/sistema/upload/" + productos.Productos[i].foto3,
-                    Category = productos.Productos[i].linea,
-                    Qualification = productos.Productos[i].calificacion,
-                    Guarantee = productos.Productos[i].garantia,
-                    Price = productos.Productos[i].precio,
-                    ImageShoppingCar = Settings.ApiAddress + "/sistema/" + "/phpimages/shoppingcar.png"
-                });
+                cod_linea = categorias.Categorias[i].cod_linea;
+                description = categorias.Categorias[i].descripcion;
+                Stacklayout.Children.Add(new Button() { Text = description, Command = new Command(OnAddControl), CommandParameter = cod_linea });
+
             }
-
-            var sorted = from item in Items
-                         orderby item.Name
-                         group item by item.NameSort into monkeyGroup
-                         select new Grouping<string, Item>(monkeyGroup.Key, monkeyGroup);
-
-            ItemsGrouped = new ObservableCollection<Grouping<string, Item>>(sorted);
-            
         }
+        private void OnAddControl(object parameter)
+        {
 
+            OrderSuccessful(Convert.ToString(parameter));
+
+        }
+        public async Task OrderSuccessful(string parameter)
+        {
+            //Remueve la pagina superior de la navegacion (Es como dar click en "atras")
+            //La variable Navigation fue recibida de la ventana anterior, fue necesario declararla en la clase actual para poder usarla;
+            await Navigation.PushAsync(new ItemsPage("1",parameter));
+
+        }
 
         #endregion
     }
-   
 }
-

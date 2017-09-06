@@ -35,7 +35,8 @@ namespace Pymes4.Helpers
         private static readonly string SettingsDefaultAppointmentStatus = string.Empty;
         private const string SettingsOffert = "Offert";
         private static readonly string SettingsDefaultOffert = string.Empty;
-        
+        private const string SettingsApiAddress = "ApiAddress";
+        private static readonly string SettingsDefaultApiAddress = string.Empty;
         #endregion
 
 
@@ -121,6 +122,18 @@ namespace Pymes4.Helpers
             set
             {
                 AppSettings.AddOrUpdateValue<string>(SettingsOffert, value);
+            }
+
+        }
+        public static string ApiAddress
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(SettingsApiAddress, SettingsDefaultApiAddress);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(SettingsApiAddress, value);
             }
 
         }

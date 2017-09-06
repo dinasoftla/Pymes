@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pymes4.Pages.ShoppingCar"
-             Title="Carrito De Compras">
+             Title="Carrito De Compras"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ScrollView>
         <ActivityIndicator
             IsRunning="{Binding IsRunning}">
@@ -15,19 +16,23 @@
                 GroupShortNameBinding = "{Binding Key}"
                 IsGroupingEnabled = "true"
                 GroupDisplayBinding = "{Binding Key}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                IsPullToRefreshEnabled="True" 
+                RefreshCommand="{Binding LoadProductsCommand}" 
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
             <ListView.Header>
                 <StackLayout>
-                    <StackLayout Padding="6" Orientation="Horizontal" BackgroundColor="#34a853" HorizontalOptions="EndAndExpand">
+                    <StackLayout Padding="6" Orientation="Horizontal" BackgroundColor="#34a853" HorizontalOptions="EndAndExpand" >
                         <Label x:Name="codigoxg" Text="TOTAL CARRITO: " TextColor="White" FontAttributes="Bold"/>
                         <Label x:Name="codigoxgf" Text="₡" TextColor="White" FontAttributes="Bold"/>
                         <Label x:Name="codigoxj" Text="{Binding TotalCarrito}" TextColor="White" FontAttributes="Bold"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Entry x:Name="codigox"  Text="{Binding Nota}" Placeholder="Nota:" TextColor="Black" WidthRequest="300" />
+                        <Entry x:Name="txtNota"  Text="{Binding Nota}" Placeholder="Nota:" TextColor="Black" WidthRequest="300" IsVisible="{Binding IsVisible}"/>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Button Text="AGREGAR AL PEDIDO" Command="{Binding CreateOrderCommand}"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsVisible}">
+                        <Button Text="GENERAR PEDIDO" Command="{Binding CreateOrderCommand}"/>
+                        <Button Text="Actualizar" Grid.Row="1" Grid.Column="1" Command="{Binding RetriveProductsCommand}"/>
                     </StackLayout>
                 </StackLayout>
             </ListView.Header>

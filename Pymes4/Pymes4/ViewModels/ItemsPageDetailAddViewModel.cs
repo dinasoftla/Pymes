@@ -264,6 +264,8 @@ namespace Pymes4.ViewModels
 
         public ItemsPageDetailAddViewModel(Item item, INavigation PageNav)
         {
+            CantidadPedida = 1;
+
             Code = item.Code;
             Name = item.Name;
             Description = item.Description;
@@ -309,7 +311,7 @@ namespace Pymes4.ViewModels
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.17");
+                client.BaseAddress = new Uri(Settings.ApiAddress);
                 string url = string.Format("/apirest/index.php/agregaralpedido/{0}/{1}/{2}", Settings.Phone, Code, CantidadPedida);
                 var response = await client.GetAsync(url);
 
@@ -344,9 +346,11 @@ namespace Pymes4.ViewModels
 
         public async Task Successful()
         {
+            await App.Current.MainPage.DisplayAlert("Mensaje", "El Articulo fue agregado al Carrito!", "Aceptar");
+
             //Remueve la pagina superior de la navegacion (Es como dar click en "atras")
             //La variable Navigation fue recibida de la ventana anterior, fue necesario declararla en la clase actual para poder usarla;
-            await Navigation.PopAsync();// 3) parte
+            await Navigation.PopToRootAsync();// 3) parte
         }
 
 

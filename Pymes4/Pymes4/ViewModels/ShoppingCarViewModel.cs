@@ -35,6 +35,8 @@ namespace Pymes4.ViewModels
 
         private bool isEnabled;
 
+        private bool isRefreshing;
+
         private decimal totalcarrito;
 
         private string nota;
@@ -43,6 +45,7 @@ namespace Pymes4.ViewModels
 
         private string categoria;
 
+        private bool isVisible;
 
         #endregion
 
@@ -156,6 +159,22 @@ namespace Pymes4.ViewModels
                 return isEnabled;
             }
         }
+        
+        public bool IsRefreshing
+        {
+            set
+            {
+                if (isRefreshing != value)
+                {
+                    isRefreshing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRefreshing"));
+                }
+            }
+            get
+            {
+                return isRefreshing;
+            }
+        }
         public string Message
         {
             set
@@ -171,16 +190,34 @@ namespace Pymes4.ViewModels
                 return message;
             }
         }
+        public bool IsVisible
+        {
+            set
+            {
+                if (isVisible != value)
+                {
+                    isVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisible"));
+                }
+            }
+            get
+            {
+                return isVisible;
+            }
+        }
         #endregion
 
         #region Constructors
 
-        public ShoppingCarViewModel(String telefono, string pageapp, INavigation PageNav)
+        public ShoppingCarViewModel()
         {
-            LoadApiResult(telefono, pageapp);
+            //String telefono, string pageapp, INavigation PageNav
+            //LoadProducts();
 
-            //Recibe la pagina de navegacion para ser utilizada 2) parte
-            Navigation = PageNav;
+           
+
+            ////Recibe la pagina de navegacion para ser utilizada 2) parte
+            //Navigation = PageNav;
 
         }
         #endregion
@@ -188,19 +225,32 @@ namespace Pymes4.ViewModels
         #region Commands
 
         public ICommand CreateOrderCommand { get { return new RelayCommand(CreateOrder); } }
+        public ICommand LoadProductsCommand { get { return new RelayCommand(LoadProducts); } }
+
+        public async void LoadProducts()
+        {
+            IsRefreshing = true;
+            LoadApiResult(Settings.Phone, "1");
+            IsRefreshing = false;
+        }
 
         private async void CreateOrder()
         {
+            
             string nota = string.Empty;
             if (String.IsNullOrEmpty(Nota))
             {
                 nota = "Ninguna";
+            }else
+            {
+                nota = Nota;
             }
+
             try
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.17");
+                client.BaseAddress = new Uri(Settings.ApiAddress);
                 string url = string.Format("/apirest/index.php/crearpedido/{0}/{1}", Settings.Phone, nota);
                 var response = await client.GetAsync(url);
 
@@ -236,7 +286,6 @@ namespace Pymes4.ViewModels
 
         #endregion
 
-
         #region Methods
 
         public async void LoadApiResult(string phone, string pageapp)
@@ -248,7 +297,7 @@ namespace Pymes4.ViewModels
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.17");
+                client.BaseAddress = new Uri(Settings.ApiAddress);
                 string url = string.Format("/apirest/index.php/vercarrito/{0}/{1}", phone, pageapp);
                 var response = await client.GetAsync(url); 
 
@@ -296,9 +345,9 @@ namespace Pymes4.ViewModels
                     UserId = productoscarrito.ProductosCarrito[i].codusuario,
                     Code = productoscarrito.ProductosCarrito[i].codarticulo,
                     Description = productoscarrito.ProductosCarrito[i].descripcion,
-                    Image1 = "http://192.168.0.17/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto,
-                    Image2 = "http://192.168.0.17/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto2,
-                    Image3 = "http://192.168.0.17/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto3,
+                    Image1 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto,
+                    Image2 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto2,
+                    Image3 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto3,
                     Category = productoscarrito.ProductosCarrito[i].linea,
                     Qualification = productoscarrito.ProductosCarrito[i].calificacion,
                     Guarantee = productoscarrito.ProductosCarrito[i].garantia,
@@ -324,12 +373,32 @@ namespace Pymes4.ViewModels
 
             ItemsGrouped = new ObservableCollection<Grouping<int, ItemShoppingCar>>(sorted);
 
+            if (TotalCarrito == 0)
+            {
+                IsVisible = false;
+                App.Current.MainPage.DisplayAlert("Mensaje", "El Carrito no contiene articulos!", "Aceptar");
+                return;
+            }
+            else
+            {
+                IsVisible = true;
+            }
+
         }
         public async Task OrderSuccessful()
         {
             //Remueve la pagina superior de la navegacion (Es como dar click en "atras")
             //La variable Navigation fue recibida de la ventana anterior, fue necesario declararla en la clase actual para poder usarla;
-            await Navigation.PushAsync(new Delivered(Settings.Phone));
+
+            //await Navigation.PopAsync();
+            //await Navigation.PushAsync(new Delivered(Settings.Phone));
+
+            LoadApiResult(Settings.Phone, "1");
+
+            //App.Current.MainPage = new MainMenuPage();
+            await App.Current.MainPage.DisplayAlert("Orden Generada", "Puede revisar los Pedidos en en el menú la opción 'Enviados'", "Aceptar");
+            //Recibe la pagina de navegacion para ser utilizada 2) parte
+            //Navigation = PageNav;
         }
 
 

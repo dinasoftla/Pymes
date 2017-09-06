@@ -163,7 +163,7 @@ namespace Pymes4.ViewModels
             {
                 IsRunning = true;
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://192.168.0.17");
+                client.BaseAddress = new Uri(Settings.ApiAddress);
                 string url = string.Format("/apirest/index.php/verpedidos/{0}/{1}", phone, pageapp);
                 var response = await client.GetAsync(url); 
 
@@ -209,7 +209,7 @@ namespace Pymes4.ViewModels
                     Order = productosalistando.ProductosCarrito[i].codpedidoactual,
                     UserId = productosalistando.ProductosCarrito[i].codusuario,
                     Code = productosalistando.ProductosCarrito[i].codarticulo,
-                    Image = "http://192.168.0.17/sistema/upload/" + productosalistando.ProductosCarrito[i].foto,
+                    Image = Settings.ApiAddress + "/sistema/upload/" + productosalistando.ProductosCarrito[i].foto,
                     Description = productosalistando.ProductosCarrito[i].descripcion,
                     Quantity = productosalistando.ProductosCarrito[i].cantidad,
                     Date = productosalistando.ProductosCarrito[i].fecha.Substring(0,10),

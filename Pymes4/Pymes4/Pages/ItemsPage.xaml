@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:control="clr-namespace:Pymes4.Controls"
              x:Class="Pymes4.Pages.ItemsPage"
-             Title="Productos">
+             Title="Categorías">
     <ScrollView>
-            <ActivityIndicator
+        <ActivityIndicator
             IsRunning="{Binding IsRunning}">
             </ActivityIndicator>
             <Label Text="Cargando Productos..." HorizontalTextAlignment="Center"/>

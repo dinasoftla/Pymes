@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pymes4.Pages.Categories"
+             Title="Categorías">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" x:Name="MenuStack">
+                <Label Text=""/>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
