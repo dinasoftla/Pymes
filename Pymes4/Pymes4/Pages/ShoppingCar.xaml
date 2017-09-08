@@ -2,9 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pymes4.Pages.ShoppingCar"
-             Title="Carrito De Compras"
+             Title="2) Carrito De Compras"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
-    <ScrollView>
+    <ScrollView 
+        BindingContext="{Binding ShoppingCar}">
         <ActivityIndicator
             IsRunning="{Binding IsRunning}">
         </ActivityIndicator>
@@ -22,9 +23,8 @@
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
             <ListView.Header>
                 <StackLayout>
-                    <StackLayout Padding="6" Orientation="Horizontal" BackgroundColor="#34a853" HorizontalOptions="EndAndExpand" >
+                    <StackLayout Padding="6" Orientation="Horizontal" BackgroundColor="#34a853" HorizontalOptions="EndAndExpand" IsVisible="{Binding IsVisible}">
                         <Label x:Name="codigoxg" Text="TOTAL CARRITO: " TextColor="White" FontAttributes="Bold"/>
-                        <Label x:Name="codigoxgf" Text="₡" TextColor="White" FontAttributes="Bold"/>
                         <Label x:Name="codigoxj" Text="{Binding TotalCarrito}" TextColor="White" FontAttributes="Bold"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
@@ -32,7 +32,9 @@
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsVisible}">
                         <Button Text="GENERAR PEDIDO" Command="{Binding CreateOrderCommand}"/>
-                        <Button Text="Actualizar" Grid.Row="1" Grid.Column="1" Command="{Binding RetriveProductsCommand}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10" IsVisible="{Binding EmptyShoppingCarVisible}">
+                        <Label x:Name="lblvacio" Text="El Carrito Esta Vacio!" TextColor="Gray" FontAttributes="Bold" />
                     </StackLayout>
                 </StackLayout>
             </ListView.Header>
@@ -75,12 +77,10 @@
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor= "#cccccc" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="1" HorizontalOptions="Fill">
                                 <Label x:Name="Price" Text="Precio:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
-                                <Label x:Name="PriceColon" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
                                 <Label x:Name="btn8" Text="{Binding Price}" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" Padding="3" BackgroundColor="#C4070F" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="2" HorizontalOptions="End">
                                 <Label x:Name="Total" Text="Total:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
-                                <Label x:Name="PriceColonTotal" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="White" />
                                 <Label x:Name="Totalbinding" Text="{Binding Total}" Grid.Row="3" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
                             </StackLayout>
 

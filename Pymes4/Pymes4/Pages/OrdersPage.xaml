@@ -1,9 +1,10 @@
 ﻿<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:local="clr-namespace:TabbedPageWithNavigationPage;assembly=TabbedPageWithNavigationPage"
-            x:Class="TabbedPageWithNavigationPage.MainPage">
+            x:Class="TabbedPageWithNavigationPage.MainPage"
+            Title="HOLA">
     <local:TodayPage />
-    <NavigationPage Title="Schedule" Icon="schedule.png">
+    <NavigationPage>
         <x:Arguments>
             <local:SchedulePage />
         </x:Arguments>

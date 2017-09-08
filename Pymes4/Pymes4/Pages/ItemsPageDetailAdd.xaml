@@ -20,7 +20,7 @@
                     <Button Text="AGREGAR AL PEDIDO" Grid.Row="1" Grid.Column="1" Command="{Binding OrderProductCommand}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">
-                    <Label FontSize="14" Text="Precio:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
+                    <Label FontSize="14" Text="Precios:" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
                     <Label Text="{Binding Price}" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">

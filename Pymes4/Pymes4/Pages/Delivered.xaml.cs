@@ -1,4 +1,5 @@
 ﻿using Pymes4.Classes;
+using Pymes4.Helpers;
 using Pymes4.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,15 @@ namespace Pymes4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Delivered : ContentPage
     {
-        public Delivered(string telefono)
+        public Delivered()
         {
             InitializeComponent();
-            BindingContext = new DeliveredViewModel(telefono, "1"); //nueva instancia de itempage para SUBBINDING EN PAGES
+
+            var mainViewModel = MainViewModel.GetInstance();
+
+            base.Appearing += (object sender, EventArgs e) => {
+                mainViewModel.LoadDeliveredCommand.Execute(this);
+            };
         }
         #region Poner en el view model (OJO ESTO ES TEMPORAL)
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

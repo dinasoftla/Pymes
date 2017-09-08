@@ -21,7 +21,7 @@ namespace Pymes4.Pages
             var mainViewModel = MainViewModel.GetInstance();
 
             base.Appearing += (object sender, EventArgs e) => {
-                mainViewModel.LoadProductsCommand.Execute(this);
+                mainViewModel.LoadShoppingCarCommand.Execute(this);
             };
 
             //BindingContext = new ShoppingCarViewModel("71382211", "1", Navigation); //nueva instancia de itempage para SUBBINDING EN PAGES

@@ -213,7 +213,7 @@ namespace Pymes4.ViewModels
                     Category = productos.Productos[i].linea,
                     Qualification = productos.Productos[i].calificacion,
                     Guarantee = productos.Productos[i].garantia,
-                    Price = productos.Productos[i].precio,
+                    Price = "₡ " + productos.Productos[i].precio,
                     ImageShoppingCar = Settings.ApiAddress + "/sistema/" + "/phpimages/shoppingcar.png"
                 });
             }

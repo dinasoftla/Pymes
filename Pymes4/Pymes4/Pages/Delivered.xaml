@@ -2,8 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pymes4.Pages.Delivered"
-             Title="Enviados">
-    <ScrollView>
+             Title="3) Enviados"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ScrollView 
+        BindingContext="{Binding Delivered}">
+      
         <ActivityIndicator
             IsRunning="{Binding IsRunning}">
         </ActivityIndicator>
@@ -16,9 +19,19 @@
                 GroupShortNameBinding = "{Binding Key}"
                 IsGroupingEnabled = "true"
                 GroupDisplayBinding = "{Binding Key}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" >
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                IsPullToRefreshEnabled="True" 
+                RefreshCommand="{Binding LoadDeliveredCommand}" 
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
             <ListView.Header>
-                <Label x:Name="lblCategoria" Text="{Binding Categoria}" HorizontalTextAlignment="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10" IsVisible="{Binding EmptyShoppingCarVisible}">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10" IsVisible="{Binding EmptyShoppingCarVisible}">
+                        <Label x:Name="lblvacio" Text="No Hay Pedidos Enviados!" TextColor="Gray" FontAttributes="Bold" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10" IsVisible="{Binding EmptyShoppingCarVisible}">
+                        <Label x:Name="lblCategoria" Text="{Binding Categoria}" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </StackLayout>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -59,12 +72,10 @@
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" Padding="2" BackgroundColor= "#cccccc" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="1" HorizontalOptions="Fill">
                                 <Label x:Name="Price" Text="Precio:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
-                                <Label x:Name="PriceColon" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
                                 <Label x:Name="btn8" Text="{Binding Price}" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="Black" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" Padding="3" BackgroundColor="#C4070F" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="2" HorizontalOptions="End">
                                 <Label x:Name="Total" Text="Total:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
-                                <Label x:Name="PriceColonTotal" Text="₡" Grid.Row="3" Grid.Column="3" FontAttributes="Bold" TextColor="White" />
                                 <Label x:Name="Totalbinding" Text="{Binding Total}" Grid.Row="3" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
                             </StackLayout>
 

@@ -37,7 +37,7 @@ namespace Pymes4.ViewModels
 
         private bool isRefreshing;
 
-        private decimal totalcarrito;
+        private string totalcarrito;
 
         private string nota;
 
@@ -46,6 +46,8 @@ namespace Pymes4.ViewModels
         private string categoria;
 
         private bool isVisible;
+
+        private bool emptyShoppingCarVisible;
 
         #endregion
 
@@ -66,7 +68,7 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
-        public decimal TotalCarrito
+        public string TotalCarrito
         {
             set
             {
@@ -190,6 +192,21 @@ namespace Pymes4.ViewModels
                 return message;
             }
         }
+        public bool EmptyShoppingCarVisible
+        {
+            set
+            {
+                if (emptyShoppingCarVisible != value)
+                {
+                    emptyShoppingCarVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmptyShoppingCarVisible"));
+                }
+            }
+            get
+            {
+                return emptyShoppingCarVisible;
+            }
+        }
         public bool IsVisible
         {
             set
@@ -211,13 +228,6 @@ namespace Pymes4.ViewModels
 
         public ShoppingCarViewModel()
         {
-            //String telefono, string pageapp, INavigation PageNav
-            //LoadProducts();
-
-           
-
-            ////Recibe la pagina de navegacion para ser utilizada 2) parte
-            //Navigation = PageNav;
 
         }
         #endregion
@@ -227,21 +237,28 @@ namespace Pymes4.ViewModels
         public ICommand CreateOrderCommand { get { return new RelayCommand(CreateOrder); } }
         public ICommand LoadProductsCommand { get { return new RelayCommand(LoadProducts); } }
 
+
+
+        #endregion
+
+        #region Methods
         public async void LoadProducts()
         {
             IsRefreshing = true;
+            EmptyShoppingCarVisible = true;
             LoadApiResult(Settings.Phone, "1");
             IsRefreshing = false;
         }
 
         private async void CreateOrder()
         {
-            
+
             string nota = string.Empty;
             if (String.IsNullOrEmpty(Nota))
             {
                 nota = "Ninguna";
-            }else
+            }
+            else
             {
                 nota = Nota;
             }
@@ -283,11 +300,6 @@ namespace Pymes4.ViewModels
             IsEnabled = true;
             //}
         }
-
-        #endregion
-
-        #region Methods
-
         public async void LoadApiResult(string phone, string pageapp)
         {
             //Categoria = pageapp + "Pagina bindada";
@@ -299,7 +311,7 @@ namespace Pymes4.ViewModels
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(Settings.ApiAddress);
                 string url = string.Format("/apirest/index.php/vercarrito/{0}/{1}", phone, pageapp);
-                var response = await client.GetAsync(url); 
+                var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -336,6 +348,8 @@ namespace Pymes4.ViewModels
         {
             ItemShoppingCar = new ObservableCollection<ItemShoppingCar>();
             decimal total;
+            TotalCarrito = "₡ 0";
+            decimal totalcarrito = 0;
 
             for (int i = 0; i < productoscarrito.ProductosCarrito.Count; i++)
             {
@@ -352,18 +366,19 @@ namespace Pymes4.ViewModels
                     Qualification = productoscarrito.ProductosCarrito[i].calificacion,
                     Guarantee = productoscarrito.ProductosCarrito[i].garantia,
                     Quantity = productoscarrito.ProductosCarrito[i].cantidad,
-                    Date = productoscarrito.ProductosCarrito[i].fecha.Substring(0,10),
-                    Price = productoscarrito.ProductosCarrito[i].precio,
-                    Total = productoscarrito.ProductosCarrito[i].total,
-                    Status = productoscarrito.ProductosCarrito[i].estado 
+                    Date = productoscarrito.ProductosCarrito[i].fecha.Substring(0, 10),
+                    Price = "₡ " + productoscarrito.ProductosCarrito[i].precio,
+                    Total = "₡ " + productoscarrito.ProductosCarrito[i].total,
+                    Status = productoscarrito.ProductosCarrito[i].estado
                 });
 
                 try
-                { total = Convert.ToDecimal(productoscarrito.ProductosCarrito[i].total);}
+                {
+                    total = Convert.ToDecimal(productoscarrito.ProductosCarrito[i].total.Replace(".",",")); }
                 catch (Exception e)
                 { total = 0; }
 
-                TotalCarrito = totalcarrito + total;
+                totalcarrito = totalcarrito + total;
             }
 
             var sorted = from ItemShoppingCar in ItemShoppingCar
@@ -373,17 +388,20 @@ namespace Pymes4.ViewModels
 
             ItemsGrouped = new ObservableCollection<Grouping<int, ItemShoppingCar>>(sorted);
 
-            if (TotalCarrito == 0)
+            if (totalcarrito == 0)
             {
                 IsVisible = false;
-                App.Current.MainPage.DisplayAlert("Mensaje", "El Carrito no contiene articulos!", "Aceptar");
+                EmptyShoppingCarVisible = true;
                 return;
             }
             else
             {
+                EmptyShoppingCarVisible = false;
                 IsVisible = true;
             }
 
+            TotalCarrito = "₡ " + totalcarrito;
+            TotalCarrito = TotalCarrito.Replace(",", ".");
         }
         public async Task OrderSuccessful()
         {
@@ -396,7 +414,7 @@ namespace Pymes4.ViewModels
             LoadApiResult(Settings.Phone, "1");
 
             //App.Current.MainPage = new MainMenuPage();
-            await App.Current.MainPage.DisplayAlert("Orden Generada", "Puede revisar los Pedidos en en el menú la opción 'Enviados'", "Aceptar");
+            await App.Current.MainPage.DisplayAlert("Orden Generada", "Puede revisar los pedidos en la opción Enviados 'Enviados'", "Aceptar");
             //Recibe la pagina de navegacion para ser utilizada 2) parte
             //Navigation = PageNav;
         }

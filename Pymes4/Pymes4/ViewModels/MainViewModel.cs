@@ -9,8 +9,8 @@ using System.Windows.Input;
 using Pymes4.Helpers;
 using Pymes4.Services;
 using System.Linq;
-
-
+using System.Threading.Tasks;
+using Pymes4.Pages;
 
 namespace Pymes4.ViewModels
 {
@@ -18,26 +18,13 @@ namespace Pymes4.ViewModels
     {
         #region Attributes
 
-        public ObservableCollection<ItemShoppingCar> ItemShoppingCar { get; set; }
-
-        public ObservableCollection<Grouping<int, ItemShoppingCar>> itemsGrouped { get; set; }
-
-        public int ItemCount => ItemShoppingCar.Count;
-
-        private RootObjectProductosCarrito productoscarrito;
-
-        private decimal totalcarrito;
-
-        private bool isVisible;
-
-        private bool isRefreshing;
-
         private NavigationService navigationService;
 
         public ItemsPageViewModel ItemsPage { get; set; }
 
         public ShoppingCarViewModel ShoppingCar { get; set; }
-        //public MainMenuPageViewModel MainMenuPage { get; set; }
+
+        public DeliveredViewModel Delivered { get; set; }
 
         private RootObjectUsuarios usuarios;
 
@@ -46,6 +33,8 @@ namespace Pymes4.ViewModels
         private bool isEnabled;
 
         private string message;
+
+        private string nota;
 
         #endregion
 
@@ -57,67 +46,23 @@ namespace Pymes4.ViewModels
 
         #region Properties
 
-        public ObservableCollection<Grouping<int, ItemShoppingCar>> ItemsGrouped
-        {
-            set
-            {
-                if (itemsGrouped != value)
-                {
-                    itemsGrouped = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ItemsGrouped"));
-                }
-            }
-            get
-            {
-                return itemsGrouped;
-            }
-        }
-        public bool IsVisible
-        {
-            set
-            {
-                if (isVisible != value)
-                {
-                    isVisible = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsVisible"));
-                }
-            }
-            get
-            {
-                return isVisible;
-            }
-        }
-        public decimal TotalCarrito
-        {
-            set
-            {
-                if (totalcarrito != value)
-                {
-                    totalcarrito = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalCarrito"));
-                }
-            }
-            get
-            {
-                return totalcarrito;
-            }
-        }
 
-        public bool IsRefreshing
+        public string Nota
         {
             set
             {
-                if (isRefreshing != value)
+                if (nota != value)
                 {
-                    isRefreshing = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRefreshing"));
+                    nota = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Nota"));
                 }
             }
             get
             {
-                return isRefreshing;
+                return nota;
             }
         }
+ 
         public bool IsRunning
         {
             set
@@ -170,7 +115,7 @@ namespace Pymes4.ViewModels
 
         public MainViewModel()
         {
-            //Singleton
+            //Singleton - Para que pueda ser referenciada la mainview model desde otras view models
             instance = this;
 
             //Navigation
@@ -188,114 +133,26 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Commands
-        public ICommand LoadProductsCommand { get { return new RelayCommand(LoadShoppingCar); } }
+        public ICommand LoadShoppingCarCommand { get { return new RelayCommand(LoadShoppingCar); } }
+        public ICommand LoadDeliveredCommand { get { return new RelayCommand(LoadDelivered); } }
+        //public ICommand CreateOrderCommand { get { return new RelayCommand(CreateOrder); } }
 
-        public async void LoadShoppingCar()
-        {
-            //Categoria = pageapp + "Pagina bindada";
-            //if (!String.IsNullOrEmpty(Settings.Phone))
-            //{
-            try
-            {
-                IsRunning = true;
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(Settings.ApiAddress);
-                string url = string.Format("/apirest/index.php/vercarrito/{0}/{1}", Settings.Phone, "1");
-                var response = await client.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    await App.Current.MainPage.DisplayAlert("Error", response.StatusCode.ToString(), "Aceptar");
-                    IsRunning = false;
-                    IsEnabled = false;
-                    return;
-                }
-                else
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-                    //Crear clase interface para notificaciones:
-                    productoscarrito = JsonConvert.DeserializeObject<RootObjectProductosCarrito>(result);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Error De Conexión", ex.Message, "Aceptar");
-                IsRunning = false;
-                IsEnabled = false;
-                return;
-            }
-            //
-
-            SuccessfulLoadShoppingCar();
-            IsRunning = false;
-            IsEnabled = true;
-            //}
-
-        }
-
-        private void SuccessfulLoadShoppingCar()
-        {
-            ItemShoppingCar = new ObservableCollection<ItemShoppingCar>();
-            decimal total;
-
-            for (int i = 0; i < productoscarrito.ProductosCarrito.Count; i++)
-            {
-                ItemShoppingCar.Add(new ItemShoppingCar
-                {
-                    Order = productoscarrito.ProductosCarrito[i].codpedidoactual,
-                    UserId = productoscarrito.ProductosCarrito[i].codusuario,
-                    Code = productoscarrito.ProductosCarrito[i].codarticulo,
-                    Description = productoscarrito.ProductosCarrito[i].descripcion,
-                    Image1 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto,
-                    Image2 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto2,
-                    Image3 = Settings.ApiAddress + "/sistema/upload/" + productoscarrito.ProductosCarrito[i].foto3,
-                    Category = productoscarrito.ProductosCarrito[i].linea,
-                    Qualification = productoscarrito.ProductosCarrito[i].calificacion,
-                    Guarantee = productoscarrito.ProductosCarrito[i].garantia,
-                    Quantity = productoscarrito.ProductosCarrito[i].cantidad,
-                    Date = productoscarrito.ProductosCarrito[i].fecha.Substring(0, 10),
-                    Price = productoscarrito.ProductosCarrito[i].precio,
-                    Total = productoscarrito.ProductosCarrito[i].total,
-                    Status = productoscarrito.ProductosCarrito[i].estado
-                });
-
-                try
-                { total = Convert.ToDecimal(productoscarrito.ProductosCarrito[i].total); }
-                catch (Exception e)
-                { total = 0; }
-
-                TotalCarrito = totalcarrito + total;
-            }
-
-            var sorted = from ItemShoppingCar in ItemShoppingCar
-                         orderby ItemShoppingCar.Description
-                         group ItemShoppingCar by ItemShoppingCar.DescriptionSort into monkeyGroup
-                         select new Grouping<int, ItemShoppingCar>(monkeyGroup.Key, monkeyGroup);
-
-            ItemsGrouped = new ObservableCollection<Grouping<int, ItemShoppingCar>>(sorted);
-
-            if (TotalCarrito == 0)
-            {
-                IsVisible = false;
-                App.Current.MainPage.DisplayAlert("Mensaje", "El Carrito no contiene articulos!", "Aceptar");
-                return;
-            }
-            else
-            {
-                IsVisible = true;
-            }
-
-        }
-        //public async void LoadShoppingCar()
-        //{
-        //    //IsRefreshing = true;
-        //    //ShoppingCar.LoadProducts();
-        //    //IsRefreshing = false;
-        //}
         #endregion
 
         #region Methods
+
+        public async void LoadShoppingCar()
+        {
+            //Triger que se ejecuta para actualizar la view model, cada vez que se muestra la ventana
+            ShoppingCar.LoadProducts(); 
+        }
+        public async void LoadDelivered()
+        {
+            //Triger que se ejecuta para actualizar la view model, cada vez que se muestra la ventana
+            Delivered.LoadProducts();
+        }
+       
         public async void LoadApiResult(string phone)
         {
 

@@ -33,23 +33,20 @@ namespace Pymes4.Pages
         }
         private void OnAddControl()
         {
-            Detail = new NavigationPage(new Categories());
+            Detail = new NavigationPage(new OrdersPage());
             IsPresented = false;
         }
         private void OnAddControl2()
         {
-            Detail = new NavigationPage(new ShoppingCar());
-            IsPresented = false;
+          
         }
         private void OnAddControl3()
         {
-            Detail = new NavigationPage(new Delivered("71382211"));
-            IsPresented = false;
+            
         }
         private void OnAddControl4()
         {
-            Detail = new NavigationPage(new Test());
-            IsPresented = false;
+           
         }
     }
    

@@ -11,11 +11,13 @@ namespace Pymes4.Infrastructure
     {
         public MainViewModel Main { get; set; }
         public ShoppingCarViewModel ShoppingCar { get; set; }
+        public DeliveredViewModel Delivered { get; set; }
 
         public InstanceLocator()
         {
             Main = new MainViewModel();
             ShoppingCar = new ShoppingCarViewModel();
+            Delivered = new DeliveredViewModel();
         }
     }
 

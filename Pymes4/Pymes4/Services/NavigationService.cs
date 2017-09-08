@@ -18,7 +18,7 @@ namespace Pymes4.Services
                     var mainViewModel = MainViewModel.GetInstance();
                     mainViewModel.ShoppingCar = new ShoppingCarViewModel();
 
-                    await App.Current.MainPage.Navigation.PushAsync(new ShoppingCar());
+                    //await App.Current.MainPage.Navigation.PushAsync(new ShoppingCar());
                     break;
                 default:
                     break;

@@ -15,8 +15,7 @@
                 </StackLayout>
                 <Image HorizontalOptions="Center" Source="{Binding Image1}"/>
                 <StackLayout Orientation="Horizontal" Padding="8" BackgroundColor="Gray">
-                    <Label FontSize="14" Text="Cantidad:" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
-                    <Entry Keyboard="Numeric" Text="0" TextColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+                    <Label FontSize="14" Text="{Binding Quantity}" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="100" />
                     <Button Text="ELIMINAR DEL PEDIDO" Grid.Row="1" Grid.Column="1" Command="{Binding DeleteOrderCommand}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="8">

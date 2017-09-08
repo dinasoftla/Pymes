@@ -33,7 +33,7 @@ namespace Pymes4.ViewModels
         private string qualification;
         private string guarantee;
         private string price;
-        private int cantidadPedida;
+        private string quantity;
 
         private string message;
         #endregion
@@ -242,19 +242,19 @@ namespace Pymes4.ViewModels
                 return price;
             }
         }
-        public int CantidadPedida
+        public string Quantity
         {
             set
             {
-                if (cantidadPedida != value)
+                if (quantity != value)
                 {
-                    cantidadPedida = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CantidadPedida"));
+                    quantity = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Quantity"));
                 }
             }
             get
             {
-                return cantidadPedida;
+                return quantity;
             }
         }
         public string Message
@@ -285,6 +285,7 @@ namespace Pymes4.ViewModels
             Image1 = item.Image1;
             Image2 = item.Image2;
             Image3 = item.Image3;
+            Quantity = "Cantidad: " + item.Quantity;
             Category = item.Category;
             Qualification = item.Qualification;
             Guarantee = item.Guarantee;

@@ -20,17 +20,21 @@ namespace Pymes4.ViewModels
     {
         #region Attributes
 
-        public ObservableCollection<ItemPicking> ItemPicking { get; set; }
+        private bool emptyShoppingCarVisible;
 
-        public ObservableCollection<Grouping<int, ItemPicking>> itemsGrouped { get; set; }
+        private ObservableCollection<ItemPicking> ItemPicking { get; set; }
 
-        public int ItemCount => ItemPicking.Count;
+        private ObservableCollection<Grouping<int, ItemPicking>> itemsGrouped { get; set; }
+
+        private int ItemCount => ItemPicking.Count;
 
         private RootObjectProductosAlistando productosalistando;
 
         private bool isRunning;
 
         private bool isEnabled;
+
+        private bool isRefreshing;
 
         private string message;
 
@@ -54,6 +58,23 @@ namespace Pymes4.ViewModels
         #endregion
 
         #region Properties
+
+        public bool EmptyShoppingCarVisible
+        {
+            set
+            {
+                if (emptyShoppingCarVisible != value)
+                {
+                    emptyShoppingCarVisible = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmptyShoppingCarVisible"));
+                }
+            }
+            get
+            {
+                return emptyShoppingCarVisible;
+            }
+        }
+
         public string Categoria
         {
             set
@@ -115,6 +136,21 @@ namespace Pymes4.ViewModels
                 return isEnabled;
             }
         }
+        public bool IsRefreshing
+        {
+            set
+            {
+                if (isRefreshing != value)
+                {
+                    isRefreshing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsRefreshing"));
+                }
+            }
+            get
+            {
+                return isRefreshing;
+            }
+        }
         public string Message
         {
             set
@@ -134,19 +170,22 @@ namespace Pymes4.ViewModels
 
         #region Constructors
 
-        public DeliveredViewModel(String telefono, string pageapp)
+        public DeliveredViewModel()
         {
-            LoadApiResult(telefono, pageapp);
+          
         }
         #endregion
 
         #region Commands
 
-        public ICommand RetriveProductsCommand { get { return new RelayCommand(LoadProducts); } }
+        public ICommand LoadDeliveredCommand { get { return new RelayCommand(LoadProducts); } }
 
-        private async void LoadProducts()
+        public async void LoadProducts()
         {
-            //LoadApiResult("71382211", "2");
+            IsRefreshing = true;
+            LoadApiResult(Settings.Phone, "1");
+            IsRefreshing = false;
+            
         }
 
         #endregion
@@ -190,7 +229,7 @@ namespace Pymes4.ViewModels
                 return;
             }
             //
-
+            
             Successful();
             IsRunning = false;
             IsEnabled = true;
@@ -201,6 +240,7 @@ namespace Pymes4.ViewModels
         private void Successful()
         {
             ItemPicking = new ObservableCollection<ItemPicking>();
+            EmptyShoppingCarVisible = true;
 
             for (int i = 0; i < productosalistando.ProductosCarrito.Count; i++)
             {
@@ -213,10 +253,11 @@ namespace Pymes4.ViewModels
                     Description = productosalistando.ProductosCarrito[i].descripcion,
                     Quantity = productosalistando.ProductosCarrito[i].cantidad,
                     Date = productosalistando.ProductosCarrito[i].fecha.Substring(0,10),
-                    Price = productosalistando.ProductosCarrito[i].precio,
-                    Total = productosalistando.ProductosCarrito[i].total,
+                    Price = "₡ " + productosalistando.ProductosCarrito[i].precio,
+                    Total = "₡ " + productosalistando.ProductosCarrito[i].total,
                     Status = productosalistando.ProductosCarrito[i].estado 
                 });
+                EmptyShoppingCarVisible = false;
             }
 
             var sorted = from ItemShoppingCar in ItemPicking
