@@ -135,8 +135,9 @@ namespace Pymes4.ViewModels
 
             IsEnabled = false;
             //GetRates();
-            LoadApiResult();
             Settings.ApiAddress = "http://192.168.0.10";
+            LoadApiResult();
+            
             Message = "Select the values";
 
             AppointmentPage = new AppointmentPageViewModel();
@@ -225,6 +226,8 @@ namespace Pymes4.ViewModels
 
         private void Successful()
         {
+
+
             if (usuarios.Usuarios[0].activo == "1")
             {
                 Settings.Name = usuarios.Usuarios[0].nombre;
@@ -235,7 +238,7 @@ namespace Pymes4.ViewModels
                 Settings.AppointmentStatus = usuarios.Usuarios[0].estadocita;
                 Settings.Offert = usuarios.Usuarios[0].oferta;
 
-                
+                App.Current.MainPage = new Pages.MainMenuPage();
             }
             else if (usuarios.Usuarios[0].activo == "0")
             {
