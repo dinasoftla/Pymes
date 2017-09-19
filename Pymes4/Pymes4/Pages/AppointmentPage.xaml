@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pymes4.Pages.AppointmentPage"
+             Title="Solicitar Cita"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView 
+        BindingContext="{Binding AppointmentPage}">
+            <StackLayout Padding="10">
+                <Label x:Name="lblFecha" Text="Fecha:" IsVisible="{Binding IsVisible}" />
+
+                <DatePicker Date="{Binding SelectedDateIndexPicker}" IsVisible="{Binding IsVisible}"/>
+
+                <Label  x:Name="lblHora" Text="Hora:" IsVisible="{Binding IsVisible}"/>
+
+                <Picker Title="Seleccione la hora:" 
+                        HorizontalOptions="FillAndExpand"
+                        SelectedItem="{Binding SelectedHourIndexPicker}"
+                        IsVisible="{Binding IsVisible}">
+                    <Picker.Items>
+                        <x:String>07:00 AM</x:String>
+                        <x:String>07:30 AM</x:String>
+                        <x:String>08:00 AM</x:String>
+                        <x:String>08:30 AM</x:String>
+                        <x:String>09:00 AM</x:String>
+                        <x:String>09:30 AM</x:String>
+                        <x:String>10:00 AM</x:String>
+                        <x:String>10:30 AM</x:String>
+                        <x:String>11:00 AM</x:String>
+                        <x:String>11:30 AM</x:String>
+                        <x:String>12:00 M</x:String>
+                        <x:String>12:30 M</x:String>
+                        <x:String>01:00 PM</x:String>
+                        <x:String>01:30 PM</x:String>
+                        <x:String>02:00 PM</x:String>
+                        <x:String>02:30 PM</x:String>
+                        <x:String>03:00 PM</x:String>
+                        <x:String>03:30 PM</x:String>
+                        <x:String>04:00 PM</x:String>
+                        <x:String>04:30 PM</x:String>
+                        <x:String>05:00 PM</x:String>
+                        <x:String>05:30 PM</x:String>
+                        <x:String>06:00 PM</x:String>
+                        <x:String>06:30 PM</x:String>
+                        <x:String>07:00 PM</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label x:Name="lblMensaje" Text="{Binding Mensaje}" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Large" TextColor="Red"/>
+                <Button x:Name="btCrearCita" Text="Crear Cita" Command="{Binding CreateAppointmentCommand}" IsVisible="{Binding IsVisible}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

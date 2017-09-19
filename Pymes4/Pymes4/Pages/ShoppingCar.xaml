@@ -53,7 +53,6 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-
                             <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Grid.Column="0">
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.Column="0" HorizontalOptions="Center">
@@ -66,11 +65,9 @@
                             <StackLayout Orientation="Horizontal" Padding="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalOptions="End">
                                 <Label x:Name="date" Text="{Binding Date}" Grid.Row="0" Grid.Column="0" FontAttributes="None" TextColor="#aaaaaa"/>
                             </StackLayout>
-
                             <Image Source="{Binding Image1}" x:Name="btn4" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" />
                             <Label x:Name="btn5" Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Micro" TextColor="Black"/>
                             <Label x:Name="btn6" Text="{Binding Status}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" FontAttributes="Bold" TextColor="#C4070F"/>
-
                             <StackLayout Orientation="Horizontal" Padding="3" BackgroundColor= "#cccccc" Grid.Row="3" Grid.ColumnSpan="4" Grid.Column="0" HorizontalOptions="Fill">
                                 <Label x:Name="Quantity" Text="Cantidad:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
                                 <Label x:Name="btn7" Text="{Binding Quantity}" Grid.Row="3" Grid.Column="0" FontAttributes="Bold" TextColor="Black"/>
@@ -83,10 +80,7 @@
                                 <Label x:Name="Total" Text="Total:" Grid.Row="3" Grid.Column="0" FontAttributes="None" TextColor="Black"/>
                                 <Label x:Name="Totalbinding" Text="{Binding Total}" Grid.Row="3" Grid.Column="2" FontAttributes="Bold" TextColor="White" />
                             </StackLayout>
-
-
                         </Grid>
-
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

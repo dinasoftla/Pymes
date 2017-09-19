@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Pymes4.Pages.QualityPage"
+             Title="Control De Calidad"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <StackLayout Padding="10"
+            BindingContext="{Binding QualityPage}">
+            <Label Text="Calificanos" FontSize="40"/>
+            <Picker Title="Como fue el ultimo servicio recibido?:" x:Name="estrellasPicker"  HorizontalOptions="FillAndExpand">
+                <Picker.Items>
+                    <x:String>1 Estrella</x:String>
+                    <x:String>2 Estrellas</x:String>
+                    <x:String>3 Estrellas</x:String>
+                    <x:String>4 Estrellas</x:String>
+                    <x:String>5 Estrellas</x:String>
+                </Picker.Items>
+            </Picker>
+            <Button x:Name="btCalificar" Text="Calificar" Command="{Binding QualifyCommand}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

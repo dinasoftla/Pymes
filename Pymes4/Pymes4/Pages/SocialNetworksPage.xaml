@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Pymes4.Pages.Categories"
-             Title="1) Categorías"
+             x:Class="Pymes4.Pages.SocialNetworksPage"
+             Title="Redes Sociales"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Orientation="Vertical" x:Name="MenuStack">
-                <Label Text=""/>
-            </StackLayout>
-        </ScrollView>
+        <StackLayout
+            BindingContext="{Binding SocialNetworksPage}">
+            <Label Text="Welcome to Xamarin Forms!" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
